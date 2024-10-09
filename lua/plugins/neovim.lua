@@ -76,11 +76,16 @@ return {
       vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
 
       -- Set mini-files colors
-      vim.api.nvim_set_hl(0, "MiniFilesNormal", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
-      vim.api.nvim_set_hl(0, "MiniFilesBorder", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
-      vim.api.nvim_set_hl(0, "MiniFilesDirectory", { default = true, fg = c.vscBlue, bg = c.vscPopupBack })
-      vim.api.nvim_set_hl(0, "MiniFilesTitle", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
-      vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { default = true, fg = c.vscPink, bg = c.vscPopupBack })
+      vim.api.nvim_set_hl(0, "MiniFilesNormal", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
+      vim.api.nvim_set_hl(0, "MiniFilesBorder", { default = true, fg = c.vscPopupBack, bg = c.vscBack })
+      vim.api.nvim_set_hl(0, "MiniFilesDirectory", { default = true, fg = c.vscBlue, bg = c.vscBack })
+      vim.api.nvim_set_hl(0, "MiniFilesTitle", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
+      vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { default = true, fg = c.vscPink, bg = c.vscBack })
+      vim.api.nvim_set_hl(0, "MiniFilesCursorLine", { default = true, fg = c.vscYellow, bg = c.vscBack })
+
+      vim.api.nvim_set_hl(0, "BufferVisibleCHANGED", { default = true, link = "BufferVisible" })
+      vim.api.nvim_set_hl(0, "BufferVisibleDELETED", { default = true, link = "BufferVisible" })
+      vim.api.nvim_set_hl(0, "BufferVisibleADDED", { default = true, link = "BufferVisible" })
     end,
   },
 
