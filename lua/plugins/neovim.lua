@@ -10,9 +10,6 @@ return {
   {
     'folke/which-key.nvim',
     opts = {},
-    dependencies = {
-      'echasnovski/mini.icons',
-    },
     config = function(_, _)
       -- document existing key chains
       require('which-key').add {
@@ -49,7 +46,6 @@ return {
       local c = require('vscode.colors').get_colors()
       vim.cmd.colorscheme 'vscode'
 
-      -- Set colors for navic. TODO: there are some
       vim.api.nvim_set_hl(0, "NavicIconsFile", { default = true, fg = c.vscViolet, bg = c.vscLeftMid })
       vim.api.nvim_set_hl(0, "NavicIconsModule", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
       vim.api.nvim_set_hl(0, "NavicIconsNamespace", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
@@ -78,6 +74,13 @@ return {
       vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
       vim.api.nvim_set_hl(0, "NavicText", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
       vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
+
+      -- Set mini-files colors
+      vim.api.nvim_set_hl(0, "MiniFilesNormal", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
+      vim.api.nvim_set_hl(0, "MiniFilesBorder", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
+      vim.api.nvim_set_hl(0, "MiniFilesDirectory", { default = true, fg = c.vscBlue, bg = c.vscPopupBack })
+      vim.api.nvim_set_hl(0, "MiniFilesTitle", { default = true, fg = c.vscPopupFront, bg = c.vscPopupBack })
+      vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { default = true, fg = c.vscPink, bg = c.vscPopupBack })
     end,
   },
 
@@ -102,7 +105,6 @@ return {
         theme = 'vscode',
         component_separators = '|',
         section_separators = '',
-        disabled_filetypes = { 'neo-tree' },
       },
       sections = {
         lualine_a = { 'mode' },
@@ -131,14 +133,9 @@ return {
     },
   },
 
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
-
+  -- Beautiful buffer tabs
   {
     'romgrk/barbar.nvim',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
     init = function() vim.g.barbar_auto_setup = false end,
     opts = {
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
@@ -156,13 +153,28 @@ return {
           filename = true,
         },
         filetype = {
-          enabled = true,
+          enabled = false,
         }
       },
-      sidebar_filetypes = {
-        ['neo-tree'] = { event = 'BufWipeout' },
-      },
     },
+  },
+
+  -- File browser
+  {
+    'echasnovski/mini.files',
+    config = {
+      options = {
+        use_as_default_explorer = false,
+      }
+    },
+    keys = {
+      {
+        '<leader>e',
+        '<cmd>lua MiniFiles.open()<CR>',
+        desc = 'File [E]xplorer'
+      }
+    },
+    version = false,
   },
 
   -- Auto close brackets
@@ -172,44 +184,6 @@ return {
     config = {}
   },
 
-  -- Enable ChatGPT
-  {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- Optional
-      {
-        "stevearc/dressing.nvim",      -- Optional: Improves the default Neovim UI
-        opts = {},
-      },
-    },
-    opts = {
-      strategies = {
-        chat = {
-          adapter = "openai",
-        },
-        inline = {
-          adapter = "openai",
-        },
-        agent = {
-          adapter = "openai",
-        },
-      },
-      adapters = {
-        openai = function()
-          return require("codecompanion.adapters").extend("openai", {
-            env = {
-              api_key = "cmd:op read op://personal/openai/credential --no-newline",
-            },
-            schema = {
-              model = {
-                default = "gpt-4o-mini"
-              }
-            }
-          })
-        end,
-      },
-    }
-  }
+  -- "gc" to comment visual regions/lines
+  { 'numToStr/Comment.nvim', opts = {} },
 }
