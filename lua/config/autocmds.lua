@@ -1,12 +1,17 @@
 local autocmd = vim.api.nvim_create_autocmd
 
--- automatically change directory to the current file
+-- automatically change directory to the current file and open Telescope find_files
 autocmd("VimEnter", {
   callback = function()
     local bufferPath = vim.fn.expand("%:p")
     if vim.fn.isdirectory(bufferPath) ~= 0 then
+      -- without this, netrw buffer is running in the background
       vim.api.nvim_buf_delete(0, { force = true })
       vim.cmd.cd(bufferPath)
+      -- Schedule Telescope find_files to run after initial setup
+      vim.schedule(function()
+        require('telescope.builtin').find_files()
+      end)
     end
   end,
 })
@@ -43,3 +48,4 @@ autocmd("BufWritePre", {
     vim.lsp.buf.format({})
   end,
 })
+

@@ -138,39 +138,28 @@ return {
     },
   },
 
-  -- Beautiful buffer tabs
-  {
-    'romgrk/barbar.nvim',
-    init = function() vim.g.barbar_auto_setup = false end,
-    opts = {
-      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-      -- animation = true,
-      -- insert_at_start = true,
-      -- etc.
-      icons = {
-        gitsigns = {
-          added = { enabled = true },
-          changed = { enabled = true },
-          deleted = { enabled = true },
-        },
-        pinned = {
-          button = '📌',
-          filename = true,
-        },
-        filetype = {
-          enabled = false,
-        }
-      },
-    },
-  },
-
   -- File browser
   {
     'echasnovski/mini.files',
     config = {
       options = {
         use_as_default_explorer = false,
-      }
+      },
+      mappings = {
+        close       = 'q',
+        go_in       = 'L',
+        go_in_plus  = 'l',
+        go_out      = 'H',
+        go_out_plus = 'h',
+        mark_goto   = "'",
+        mark_set    = 'm',
+        reset       = '<BS>',
+        reveal_cwd  = '@',
+        show_help   = 'g?',
+        synchronize = '=',
+        trim_left   = '<',
+        trim_right  = '>',
+      },
     },
     keys = {
       {
