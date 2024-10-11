@@ -8,10 +8,6 @@ autocmd("VimEnter", {
       -- without this, netrw buffer is running in the background
       vim.api.nvim_buf_delete(0, { force = true })
       vim.cmd.cd(bufferPath)
-      -- Schedule Telescope find_files to run after initial setup
-      vim.schedule(function()
-        require('telescope.builtin').find_files()
-      end)
     end
   end,
 })
