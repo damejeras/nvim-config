@@ -1,11 +1,5 @@
 return {
   {
-    dir = "~/.config/nvim/plugins/assist.nvim",
-    config = function()
-      require('assist')
-    end
-  },
-  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
