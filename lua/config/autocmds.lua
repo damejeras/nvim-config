@@ -1,14 +1,19 @@
 local autocmd = vim.api.nvim_create_autocmd
 
--- automatically change directory to the current file and open Telescope find_files
+-- create an empty, unmodified buffer on startup and change directory if needed
 autocmd("VimEnter", {
   callback = function()
     local bufferPath = vim.fn.expand("%:p")
     if vim.fn.isdirectory(bufferPath) ~= 0 then
-      -- without this, netrw buffer is running in the background
-      vim.api.nvim_buf_delete(0, { force = true })
+      -- Change directory if a directory path is provided
       vim.cmd.cd(bufferPath)
     end
+    -- Create a new empty buffer
+    vim.cmd("enew")
+    -- Set the buffer as unmodified
+    vim.bo.modified = false
+    -- Set the buffer as not a file (scratch buffer)
+    vim.bo.buftype = "nofile"
   end,
 })
 
@@ -51,3 +56,4 @@ autocmd("VimEnter", {
     vim.cmd.clearjumps()
   end
 })
+
