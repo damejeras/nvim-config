@@ -3,7 +3,7 @@ return {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',      opts = {} },
       { 'williamboman/mason.nvim' },
       {
         'williamboman/mason-lspconfig.nvim',
@@ -114,12 +114,14 @@ return {
                   -- manually select schemas
                   schemas = {
                     ['https://json.schemastore.org/kustomization.json'] = 'kustomization.{yml,yaml}',
-                    ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = 'docker-compose*.{yml,yaml}',
-                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "argocd-application.yaml",
+                    ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] =
+                    'docker-compose*.{yml,yaml}',
+                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] =
+                    "argocd-application.yaml",
                   }
                 }
               }
-						},
+            },
           }
 
           -- nvim-cmp supports additional completion capabilities, so broadcast that to servers

@@ -1,9 +1,7 @@
 return {
   {
     'hrsh7th/nvim-cmp',
-
     event = { 'VeryLazy' },
-
     dependencies = {
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-cmdline' },
@@ -11,13 +9,44 @@ return {
       { 'hrsh7th/cmp-nvim-lsp-signature-help' },
       { 'hrsh7th/cmp-path' },
       { 'ray-x/cmp-treesitter' },
-      { 'saadparwaiz1/cmp_luasnip' },
-      { 'L3MON4D3/LuaSnip' },
+      -- { 'saadparwaiz1/cmp_luasnip' },
+    --   {
+    --     'L3MON4D3/LuaSnip',
+    --     -- follow latest release.
+    --     version = '1.*',
+    --     -- install jsregexp (optional!).
+    --     build = 'make install_jsregexp',
+    --
+    --     dependencies = {
+    --       { 'rafamadriz/friendly-snippets' }
+    --     },
+    --
+    --     config = function()
+    --       require('luasnip.loaders.from_vscode').lazy_load()
+    --
+    --       vim.cmd [[
+    --         imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+    --         smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+    --       ]]
+    --
+    --       vim.api.nvim_create_autocmd('ModeChanged', {
+    --         pattern = '*',
+    --         callback = function()
+    --           if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
+    --               and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
+    --               and not require('luasnip').session.jump_active
+    --           then
+    --             require('luasnip').unlink_current()
+    --           end
+    --         end
+    --       })
+    --     end,
+    --   },
     },
 
     config = function()
-      local cmp = require 'cmp'
-      local luasnip = require('luasnip')
+      local cmp = require('cmp')
+      -- local luasnip = require('luasnip')
 
       local has_words_before = function()
         unpack = unpack or table.unpack
@@ -27,13 +56,13 @@ return {
 
       ---@diagnostic disable-next-line: missing-fields
       cmp.setup({
-        experimental = { ghost_text = true },
+        -- experimental = { ghost_text = true },
 
-        snippet = {
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-          end,
-        },
+        -- snippet = {
+        --   expand = function(args)
+        --     require('luasnip').lsp_expand(args.body)
+        --   end,
+        -- },
 
         window = {
           completion = cmp.config.window.bordered(),
@@ -60,9 +89,10 @@ return {
           ['<Tab>'] = cmp.mapping(function(fallback)
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
             -- they way you will only jump inside the snippet region
-            if luasnip.locally_jumpable() then
-              luasnip.expand_or_jump()
-            elseif cmp.visible() then
+            -- if luasnip.locally_jumpable() then
+            --   luasnip.expand_or_jump()
+            -- elseif cmp.visible() then
+            if cmp.visible() then
               cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
             elseif has_words_before() then
               cmp.complete()
@@ -72,9 +102,10 @@ return {
           end, { 'i', 's' }),
 
           ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            elseif cmp.visible() then
+            -- if luasnip.locally_jumpable(-1) then
+              -- luasnip.jump(-1)
+            -- elseif cmp.visible() then
+            if cmp.visible() then
               cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
             else
               fallback()
@@ -83,13 +114,17 @@ return {
         },
 
         sources = cmp.config.sources {
-          { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
-          { name = 'buffer' },
+          {
+            name = 'nvim_lsp',
+            entry_filter = function(entry, _)
+              return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
+            end
+          },
+          -- { name = 'luasnip' },
           { name = 'path' },
-          { name = 'treesitter' },
-        }
+          -- { name = 'treesitter' },
+        },
       })
 
       -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -112,38 +147,5 @@ return {
         })
       })
     end
-  },
-
-  {
-    'L3MON4D3/LuaSnip',
-    -- follow latest release.
-    version = '1.*',
-    -- install jsregexp (optional!).
-    build = 'make install_jsregexp',
-
-    dependencies = {
-      { 'rafamadriz/friendly-snippets' }
-    },
-
-    config = function()
-      require('luasnip.loaders.from_vscode').lazy_load()
-
-      vim.cmd [[
-        imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-        smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-      ]]
-
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        pattern = '*',
-        callback = function()
-          if ((vim.v.event.old_mode == 's' and vim.v.event.new_mode == 'n') or vim.v.event.old_mode == 'i')
-              and require('luasnip').session.current_nodes[vim.api.nvim_get_current_buf()]
-              and not require('luasnip').session.jump_active
-          then
-            require('luasnip').unlink_current()
-          end
-        end
-      })
-    end,
   },
 }

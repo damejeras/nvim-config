@@ -7,13 +7,13 @@ autocmd("VimEnter", {
     if vim.fn.isdirectory(bufferPath) ~= 0 then
       -- Change directory if a directory path is provided
       vim.cmd.cd(bufferPath)
+      -- Create a new empty buffer
+      vim.cmd("enew")
+      -- Set the buffer as unmodified
+      vim.bo.modified = false
+      -- Set the buffer as not a file (scratch buffer)
+      vim.bo.buftype = "nofile"
     end
-    -- Create a new empty buffer
-    vim.cmd("enew")
-    -- Set the buffer as unmodified
-    vim.bo.modified = false
-    -- Set the buffer as not a file (scratch buffer)
-    vim.bo.buftype = "nofile"
   end,
 })
 
@@ -56,4 +56,3 @@ autocmd("VimEnter", {
     vim.cmd.clearjumps()
   end
 })
-
