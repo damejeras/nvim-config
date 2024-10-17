@@ -56,3 +56,24 @@ autocmd("VimEnter", {
     vim.cmd.clearjumps()
   end
 })
+
+autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    -- Skip if filetype is already set or buffer has a name
+    if vim.bo.filetype ~= "" or vim.fn.expand("%") ~= "" then
+      return
+    end
+
+    -- Only check first line with a maximum of 100 characters
+    local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+    if not first_line then return end
+
+    first_line = first_line:sub(1, 100)
+
+    -- Quick pattern match for common JSON starts
+    if first_line:match("^%s*[{%[]") or first_line:match('^%s*"[^"]*"%s*:%s*') then
+      vim.bo.filetype = "json"
+    end
+  end,
+})
