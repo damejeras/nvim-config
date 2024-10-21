@@ -60,3 +60,6 @@ vim.o.colorcolumn = '100'
 -- Enable line wrap
 vim.o.wrap = true
 
+-- Open splits on the right
+vim.o.splitright  = true
+
