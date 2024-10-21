@@ -5,7 +5,9 @@ autocmd("VimEnter", {
   callback = function()
     local bufferPath = vim.fn.expand("%:p")
     if vim.fn.isdirectory(bufferPath) ~= 0 then
-      -- Change directory if a directory path is provided
+      -- Delete empty buffer
+      vim.api.nvim_buf_delete(0, { force = true })
+      -- Change directory if audirectory path is provided
       vim.cmd.cd(bufferPath)
       -- Create a new empty buffer
       vim.cmd("enew")

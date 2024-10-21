@@ -11,3 +11,11 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 -- Shift blocks in visual mode
 vim.keymap.set('v', '<', '<gv', { desc = 'Shift block left' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Shift block right' })
+
+-- Buffer keymaps
+vim.keymap.set('n', '<leader>\\', '<cmd>BufferPick<CR>', { desc = 'Pick buffer' })
+vim.keymap.set('n', '<leader><enter>', '<cmd>BufferPin<CR>', { desc = 'Pin buffer' })
+vim.keymap.set('n', '<leader><enter>', '<cmd>BufferCloseAllButPinned<CR>', { desc = 'Close unpined buffers' })
+vim.keymap.set('n', '<leader><space>', '<cmd>BufferNext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader><backspace>', '<cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
+
