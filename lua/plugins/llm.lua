@@ -11,15 +11,14 @@ return {
     opts = {
       strategies = {
         chat = {
-          adapter = "anthropic",
+          adapter = "openai",
         },
         inline = {
-          adapter = "openai",
+          adapter = "anthropic",
         },
         agent = {
           adapter = "openai",
         },
-
       },
       adapters = {
         anthropic = function()
@@ -31,6 +30,9 @@ return {
         end,
         openai = function()
           return require("codecompanion.adapters").extend("openai", {
+            schema = {
+              model = "gpt-4o-mini"
+            },
             env = {
               api_key = "cmd:op read op://Personal/openai/credential --no-newline",
             },

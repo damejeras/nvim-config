@@ -173,7 +173,7 @@ return {
 
   -- Auto close brackets
   {
-    'echasnovski/mini.pairs',
+    'm4xshen/autoclose.nvim',
     version = false,
     config = {}
   },
