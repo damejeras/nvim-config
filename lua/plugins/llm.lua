@@ -12,6 +12,16 @@ return {
       strategies = {
         chat = {
           adapter = "openai",
+          slash_commands = {
+            ["buffer"] = {
+              callback = "helpers.slash_commands.buffer",
+              description = "Insert open buffers",
+              opts = {
+                contains_code = true,
+                provider = "telescope", -- default|telescope|mini_pick|fzf_lua
+              },
+            },
+          }
         },
         inline = {
           adapter = "anthropic",
