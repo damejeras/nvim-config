@@ -44,9 +44,8 @@ autocmd("BufWritePre", {
   end
 })
 
--- automatic terraform format on save
+-- automatic format on save
 autocmd("BufWritePre", {
-  pattern = { "*.tf", "*.tfvars" },
   callback = function()
     vim.lsp.buf.format({})
   end,
