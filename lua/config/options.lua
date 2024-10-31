@@ -65,5 +65,6 @@ vim.o.splitright      = true
 
 -- Configure spellchecking
 vim.o.spelllang       = 'en_us'
+vim.o.spelloptions    = 'camel,noplainbuffer'
 vim.o.spellcapcheck   = ''
 vim.o.spell           = true
