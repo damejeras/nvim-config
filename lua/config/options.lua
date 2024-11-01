@@ -68,3 +68,25 @@ vim.o.spelllang       = 'en_us'
 vim.o.spelloptions    = 'camel,noplainbuffer'
 vim.o.spellcapcheck   = ''
 vim.o.spell           = true
+
+-- Clipboard hacks for WSL
+local handle          = io.popen("uname -r")
+local result          = handle:read("*a")
+if not (handle == nil) then
+  handle:close()
+end
+
+if string.find(result, "microsoft") then
+  vim.g.clipboard = {
+    name = 'WslClipboard',
+    copy = {
+      ['+'] = 'clip.exe',
+      ['*'] = 'clip.exe',
+    },
+    paste = {
+      ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+  }
+end

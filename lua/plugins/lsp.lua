@@ -103,8 +103,9 @@ return {
               },
               usePlaceholders = true,
             },
+            zls = {},
             helm_ls = {}, -- configured in ftplugin/yaml.lua
-            yamlls = {}, -- configured in ftplugin/yaml.lua
+            yamlls = {},  -- configured in ftplugin/yaml.lua
           }
 
           -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
