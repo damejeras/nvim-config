@@ -8,8 +8,7 @@ return {
       { 'towolf/vim-helm',        ft = 'helm' },
       {
         'williamboman/mason-lspconfig.nvim',
-        dependencies = {
-          { 'folke/neodev.nvim' },
+        dependencies = { { 'folke/neodev.nvim' },
           { 'nanotee/sqls.nvim' },
         },
         config = function(_, _)
@@ -51,7 +50,6 @@ return {
 
             -- See `:help K` for why this keymap
             nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-            nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
             -- Lesser used LSP functionality
             nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')

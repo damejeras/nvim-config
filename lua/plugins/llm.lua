@@ -11,7 +11,7 @@ return {
     opts = {
       strategies = {
         chat = {
-          adapter = "openai",
+          adapter = "anthropic",
           slash_commands = {
             ["buffer"] = {
               callback = "helpers.slash_commands.buffer",
@@ -34,7 +34,7 @@ return {
         anthropic = function()
           return require("codecompanion.adapters").extend("anthropic", {
             env = {
-              api_key = "cmd:op read op://Personal/anthropic/credential --no-newline"
+              api_key = "cmd:op read op://Personal/anthropic/credential --account my.1password.com --no-newline"
             },
           })
         end,
@@ -58,7 +58,7 @@ return {
               },
             },
             env = {
-              api_key = "cmd:op read op://Personal/openai/credential --no-newline",
+              api_key = "cmd:op read op://Personal/openai/credential --account my.1password.com --no-newline",
             },
           })
         end,
