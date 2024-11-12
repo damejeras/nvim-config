@@ -4,11 +4,12 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "hrsh7th/nvim-cmp",                      -- Optional: For using slash commands and variables in the chat buffer
-      "nvim-telescope/telescope.nvim",         -- Optional: For using slash commands
-      { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+      "hrsh7th/nvim-cmp",              -- Optional: For using slash commands and variables in the chat buffer
+      "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+      -- { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
     },
     opts = {
+      provider = 'telescope',
       strategies = {
         chat = {
           adapter = "anthropic",
@@ -18,7 +19,6 @@ return {
               description = "Insert open buffers",
               opts = {
                 contains_code = true,
-                provider = "telescope", -- default|telescope|mini_pick|fzf_lua
               },
             },
           }
