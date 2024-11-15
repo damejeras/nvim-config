@@ -45,9 +45,6 @@ return {
             nmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
             nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
-            nmap('<leader>ss', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch Workspace [S]ymbols')
-            nmap('<leader>sd', require('telescope.builtin').lsp_document_symbols, '[S]earch [D]ocument Symbols')
-
             -- See `:help K` for why this keymap
             nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
 

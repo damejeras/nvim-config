@@ -92,7 +92,18 @@ return {
       {
         '<leader>fs',
         function()
-          require('telescope.builtin').lsp_document_symbols({ symbol_width = 50 })
+          -- calculate column width
+          local full_width = vim.api.nvim_win_get_width(0)
+          local available = math.floor(full_width * width) - 8
+          local min_type_width = 10
+          local type_width = math.floor(available * 0.2)
+          local symbol_width = available - type_width
+          if (type_width < min_type_width) then
+            type_width = min_type_width
+            symbol_width = available - type_width
+          end
+
+          require('telescope.builtin').lsp_document_symbols({ symbol_width = symbol_width, type_width = type_width })
         end,
         desc = '[F]ind Document [S]ymbols'
       },
