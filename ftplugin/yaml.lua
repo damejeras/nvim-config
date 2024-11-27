@@ -1,8 +1,8 @@
 -- Basic settings
-vim.opt_local.tabstop = 2
-vim.opt_local.shiftwidth = 2
+vim.opt_local.tabstop     = 2
+vim.opt_local.shiftwidth  = 2
 vim.opt_local.softtabstop = 2
-vim.opt_local.expandtab = true
+vim.opt_local.expandtab   = true
 
 -- Configure yamlls to catch correct schemas.
 require('lspconfig').yamlls.setup {
@@ -47,4 +47,3 @@ require('lspconfig').helm_ls.setup {
     }
   }
 }
-

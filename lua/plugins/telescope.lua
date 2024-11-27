@@ -103,7 +103,10 @@ return {
             symbol_width = available - type_width
           end
 
-          require('telescope.builtin').lsp_document_symbols({ symbol_width = symbol_width, type_width = type_width })
+          require('telescope.builtin').lsp_document_symbols({
+            symbol_width = symbol_width,
+            type_width = type_width,
+          })
         end,
         desc = '[F]ind Document [S]ymbols'
       },
