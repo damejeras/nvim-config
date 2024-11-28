@@ -34,7 +34,7 @@ return {
         anthropic = function()
           return require("codecompanion.adapters").extend("anthropic", {
             env = {
-              api_key = "cmd:op read op://Personal/anthropic/credential --account my.1password.com --no-newline"
+              api_key = "cmd:echo $ANTHROPIC_API_KEY"
             },
           })
         end,
@@ -58,7 +58,7 @@ return {
               },
             },
             env = {
-              api_key = "cmd:op read op://Personal/openai/credential --account my.1password.com --no-newline",
+              api_key = "cmd:echo $OPENAI_API_KEY"
             },
           })
         end,
