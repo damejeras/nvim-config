@@ -86,6 +86,9 @@ return {
       vim.api.nvim_set_hl(0, "BufferVisibleCHANGED", { default = true, link = "BufferVisible" })
       vim.api.nvim_set_hl(0, "BufferVisibleDELETED", { default = true, link = "BufferVisible" })
       vim.api.nvim_set_hl(0, "BufferVisibleADDED", { default = true, link = "BufferVisible" })
+
+      -- Change spelling underline colors
+      vim.api.nvim_set_hl(0, "SpellBad", { default = false, undercurl = true, sp = c.vscUiOrange })
     end,
   },
 
@@ -141,7 +144,7 @@ return {
   -- File browser
   {
     'echasnovski/mini.files',
-    config = {
+    opts = {
       options = {
         use_as_default_explorer = false,
       },

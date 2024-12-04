@@ -9,7 +9,7 @@ return {
     dependencies = {
       {
         'petertriho/nvim-scrollbar',
-        config = {}
+        opts = {}
       }
     },
     opts = {
