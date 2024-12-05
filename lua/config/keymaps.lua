@@ -22,8 +22,9 @@ vim.keymap.set('n', '<leader><delete>', '<cmd>BufferCloseAllButPinned<CR>', { de
 -- Close pane
 vim.keymap.set('n', '<leader>x', function()
   local wins = vim.api.nvim_tabpage_list_wins(0)
+
   if #wins == 1 then
-    vim.cmd('quit')
+    vim.cmd('bd')
   else
     vim.cmd('close')
   end
