@@ -15,6 +15,8 @@ autocmd("VimEnter", {
       vim.bo.modified = false
       -- Set the buffer as not a file (scratch buffer)
       vim.bo.buftype = "nofile"
+      -- Launch file finder
+      require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
     end
   end,
 })
