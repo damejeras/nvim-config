@@ -8,8 +8,23 @@ return {
       "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
       -- { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
     },
+    keys = {
+      {
+        '<leader>cc',
+        '<cmd>CodeCompanionChat<CR>',
+        desc = '[C]ode [C]ompanion Chat',
+      },
+    },
     opts = {
       provider = 'telescope',
+      display = {
+        chat = {
+          window = {
+            layout = "horizontal",
+            height = 0.5,
+          },
+        },
+      },
       strategies = {
         chat = {
           adapter = "anthropic",
