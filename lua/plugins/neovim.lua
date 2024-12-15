@@ -1,10 +1,3 @@
-local navicline = function(opts)
-  local navic = require('nvim-navic')
-  if navic then
-    return navic.get_location(opts)
-  end
-end
-
 return {
   -- Useful plugin to show you pending keybinds.
   {
@@ -46,47 +39,6 @@ return {
       local c = require('vscode.colors').get_colors()
       vim.cmd.colorscheme 'vscode'
 
-      vim.api.nvim_set_hl(0, "NavicIconsFile", { default = true, fg = c.vscViolet, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsModule", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsNamespace", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsPackage", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsClass", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsMethod", { default = true, fg = c.vscPink, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsProperty", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsField", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsConstructor", { default = true, fg = c.vscUiOrange, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsEnum", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsInterface", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsFunction", { default = true, fg = c.vscYellow, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsVariable", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsConstant", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsString", { default = true, fg = c.vscOrange, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsNumber", { default = true, fg = c.vscLightGreen, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsBoolean", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsArray", { default = true, fg = c.vscPink, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsObject", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsKey", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsNull", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsStruct", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsEvent", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsOperator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicText", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-      vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-
-      -- Set mini-files colors
-      vim.api.nvim_set_hl(0, "MiniFilesNormal", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
-      vim.api.nvim_set_hl(0, "MiniFilesBorder", { default = true, fg = c.vscPopupBack, bg = c.vscBack })
-      vim.api.nvim_set_hl(0, "MiniFilesDirectory", { default = true, fg = c.vscBlue, bg = c.vscBack })
-      vim.api.nvim_set_hl(0, "MiniFilesTitle", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
-      vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { default = true, fg = c.vscPink, bg = c.vscBack })
-      vim.api.nvim_set_hl(0, "MiniFilesCursorLine", { default = true, fg = c.vscYellow, bg = c.vscBack })
-
-      vim.api.nvim_set_hl(0, "BufferVisibleCHANGED", { default = true, link = "BufferVisible" })
-      vim.api.nvim_set_hl(0, "BufferVisibleDELETED", { default = true, link = "BufferVisible" })
-      vim.api.nvim_set_hl(0, "BufferVisibleADDED", { default = true, link = "BufferVisible" })
-
       -- Change spelling underline colors
       vim.api.nvim_set_hl(0, "SpellBad", { default = false, undercurl = true, sp = c.vscUiOrange })
     end,
@@ -95,16 +47,6 @@ return {
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
-
-    dependencies = {
-      'SmiteshP/nvim-navic',
-      opts = {
-        highlight = true,
-        lsp = {
-          auto_attach = true,
-        },
-      },
-    },
 
     -- See `:help lualine.txt`
     opts = {
@@ -117,7 +59,6 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diagnostics' },
-        lualine_c = { { navicline } },
         lualine_x = { 'diff', { 'filename', path = 1 }, 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
@@ -141,39 +82,6 @@ return {
     },
   },
 
-  -- File browser
-  {
-    'echasnovski/mini.files',
-    opts = {
-      options = {
-        use_as_default_explorer = false,
-      },
-      mappings = {
-        close       = 'q',
-        go_in       = 'L',
-        go_in_plus  = 'l',
-        go_out      = 'H',
-        go_out_plus = 'h',
-        mark_goto   = "'",
-        mark_set    = 'm',
-        reset       = '<BS>',
-        reveal_cwd  = '@',
-        show_help   = 'g?',
-        synchronize = '=',
-        trim_left   = '<',
-        trim_right  = '>',
-      },
-    },
-    keys = {
-      {
-        '<leader>e',
-        '<cmd>lua MiniFiles.open()<CR>',
-        desc = 'File [E]xplorer'
-      }
-    },
-    version = false,
-  },
-
   -- Auto close brackets
   {
     'windwp/nvim-autopairs',
@@ -185,19 +93,4 @@ return {
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
-
-  -- Better buffers
-  {
-    'romgrk/barbar.nvim',
-    dependencies = {
-      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    opts = {
-    },
-    version = '^1.0.0', -- optional: only update when a new 1.x version is released
-  },
 }
