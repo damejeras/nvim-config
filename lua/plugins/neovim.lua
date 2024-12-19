@@ -1,20 +1,12 @@
 return {
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+      'nvim-tree/nvim-web-devicons',
     },
-    keys = {
-      {
-        '<C-e>',
-        '<cmd>Neotree toggle<CR>',
-        desc = 'File explorer',
-      },
-    }
   },
   -- Useful plugin to show you pending keybinds.
   {
@@ -48,16 +40,22 @@ return {
       }
     end
   },
-
   {
-    'Mofiqul/vscode.nvim',
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
     config = function()
-      local c = require('vscode.colors').get_colors()
-      vim.cmd.colorscheme 'vscode'
-
-      -- Change spelling underline colors
-      vim.api.nvim_set_hl(0, "SpellBad", { default = false, undercurl = true, sp = c.vscUiOrange })
+      local catppuccin = require('catppuccin')
+      catppuccin.setup({
+        flavour = "mocha", -- Choose: latte, frappe, macchiato, mocha
+        transparent_background = false,
+        custom_highlights = function(colors)
+          return {
+            SpellBad = { default = false, undercurl = true, sp = colors.pink },
+          }
+        end
+      })
+      vim.cmd.colorscheme "catppuccin-mocha"
     end,
   },
 
@@ -69,7 +67,6 @@ return {
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'vscode',
         component_separators = '|',
         section_separators = '',
       },

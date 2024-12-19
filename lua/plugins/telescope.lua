@@ -84,6 +84,14 @@ return {
       --   desc = '[/] Fuzzily search in current buffer'
       -- },
       {
+        'zs',
+        function()
+          local theme = require('telescope.themes').get_dropdown({})
+          require('telescope.builtin').spell_suggest(theme)
+        end,
+        desc = 'Suggest spelling'
+      },
+      {
         '<leader>ft',
         function()
           require('telescope.builtin').builtin()

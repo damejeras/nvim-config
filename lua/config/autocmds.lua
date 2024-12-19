@@ -1,26 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 
--- create an empty, unmodified buffer on startup and change directory if needed
-autocmd("VimEnter", {
-  callback = function()
-    local bufferPath = vim.fn.expand("%:p")
-    if vim.fn.isdirectory(bufferPath) ~= 0 then
-      -- Delete empty buffer
-      vim.api.nvim_buf_delete(0, { force = true })
-      -- Change directory if audirectory path is provided
-      vim.cmd.cd(bufferPath)
-      -- Create a new empty buffer
-      vim.cmd("enew")
-      -- Set the buffer as unmodified
-      vim.bo.modified = false
-      -- Set the buffer as not a file (scratch buffer)
-      vim.bo.buftype = "nofile"
-      -- Launch file finder
-      require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
-    end
-  end,
-})
-
+-- TODO: check if this is needed, because LSP should handle it for us.
 -- automatic goimports on save
 -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md#neovim-imports
 autocmd("BufWritePre", {
@@ -53,19 +33,24 @@ autocmd("BufWritePre", {
   end,
 })
 
--- clear jumplist
+-- Clear jump list on start, so you would not jump to previous projects.
 autocmd("VimEnter", {
   callback = function()
     vim.cmd.clearjumps()
   end
 })
 
+-- Detect JSON when files don't have .json extension. Could backfire, but had no problems yet.
 autocmd("BufEnter", {
   pattern = "*",
   callback = function()
     -- Skip if filetype is already set or buffer has a name
-    if vim.bo.filetype ~= "" or vim.fn.expand("%") ~= "" then
-      return
+    if vim.bo.filetype ~= "" then return end
+
+    local filename = vim.fn.expand("%")
+    if filename ~= "" then
+      -- If file has an extension, let Neovim handle filetype detection
+      if filename:match("%.%w+$") then return end
     end
 
     -- Only check first line with a maximum of 100 characters
