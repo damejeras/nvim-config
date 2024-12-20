@@ -66,23 +66,6 @@ return {
     end,
 
     keys = {
-      -- {
-      --   '<leader>?',
-      --   function()
-      --     require('telescope.builtin').oldfiles()
-      --   end,
-      --   desc = '[?] Find recently opened files'
-      -- },
-      -- {
-      --   '<leader>/',
-      --   function()
-      --     require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      --       winblend = 10,
-      --       previewer = false,
-      --     })
-      --   end,
-      --   desc = '[/] Fuzzily search in current buffer'
-      -- },
       {
         'zs',
         function()
