@@ -18,14 +18,3 @@ vim.keymap.set('n', '<leader>\\', '<cmd>Telescope buffers<CR>', { desc = 'Pick b
 vim.keymap.set('n', '<leader><space>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><backspace>', '<cmd>bprev<CR>', { desc = 'Previous buffer' })
 -- vim.keymap.set('n', '<leader><delete>', '<cmd>BufferCloseAllButPinned<CR>', { desc = 'Close unpined buffers' })
-
--- Close pane
-vim.keymap.set('n', '<leader>x', function()
-  local wins = vim.api.nvim_tabpage_list_wins(0)
-
-  if #wins == 1 then
-    vim.cmd('bd')
-  else
-    vim.cmd('close')
-  end
-end, { noremap = true, silent = true })
