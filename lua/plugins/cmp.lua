@@ -4,7 +4,6 @@ return {
     event = { 'VeryLazy' },
     dependencies = {
       { 'hrsh7th/cmp-buffer' },
-      { 'hrsh7th/cmp-cmdline' },
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'hrsh7th/cmp-path' },
       {
@@ -88,29 +87,6 @@ return {
           },
           { name = 'path' },
         },
-      })
-
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(':', {
-        completion = {
-          completeopt = 'noselect'
-        },
-        preselect = cmp.PreselectMode.None,
-        mapping = cmp.mapping.preset.cmdline({
-          ['<Tab>'] = {
-            c = function(_)
-              if cmp.visible() then
-                cmp.select_next_item()
-              else
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-z>', true, true, true), 'ni', true)
-              end
-            end
-          }
-        }),
-        sources = cmp.config.sources({
-          { name = 'cmdline' },
-          { name = 'path' },
-        })
       })
     end
   },
