@@ -83,6 +83,9 @@ return {
   },
   {
     "github/copilot.vim",
+    cmd = {
+      "Copilot",
+    },
     config = function()
       -- disable tab mapping
       vim.g.copilot_no_tab_map = true
