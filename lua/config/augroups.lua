@@ -15,7 +15,7 @@ local fabric_commands_cache = nil
 -- Function to get completion items for Assist command
 local function assist_complete(arg_lead, cmd_line, cursor_pos)
   if fabric_commands_cache == nil then
-    local fabric_list = vim.fn.system('fabric --list')
+    local fabric_list = vim.fn.system('fabric --listpatterns')
     fabric_commands_cache = vim.split(fabric_list, '\n')
   end
 
