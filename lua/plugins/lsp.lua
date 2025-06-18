@@ -3,11 +3,12 @@ return {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      { 'j-hui/fidget.nvim',      opts = {} },
-      { 'williamboman/mason.nvim' },
-      { 'towolf/vim-helm',        ft = 'helm' },
+      { 'j-hui/fidget.nvim',    opts = {} },
+      { "mason-org/mason.nvim", version = "1.11.0" },
+      { 'towolf/vim-helm',      ft = 'helm' },
       {
-        'williamboman/mason-lspconfig.nvim',
+        'mason-org/mason-lspconfig.nvim',
+        version = "1.32.0",
         dependencies = { { 'folke/neodev.nvim' },
           { 'nanotee/sqls.nvim' },
         },
