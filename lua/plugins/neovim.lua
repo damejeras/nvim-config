@@ -1,17 +1,28 @@
 return {
   {
-    'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {
-      cleanup_delay_ms = false,
-      view_options = {
-        show_hidden = true,
+    "refractalize/oil-git-status.nvim",
+
+    dependencies = {
+      {
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {
+          cleanup_delay_ms = false,
+          win_options = {
+            signcolumn = "yes:2",
+          },
+          view_options = {
+            show_hidden = true,
+          },
+        },
+        dependencies = {
+          'nvim-tree/nvim-web-devicons',
+        },
       },
     },
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
+
+    config = true,
   },
   -- Useful plugin to show you pending keybinds.
   {
@@ -60,7 +71,7 @@ return {
           }
         end
       })
-      vim.cmd.colorscheme "catppuccin-latte"
+      vim.cmd.colorscheme "catppuccin-frappe"
     end,
   },
 
