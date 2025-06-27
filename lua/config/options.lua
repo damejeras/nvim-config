@@ -69,8 +69,8 @@ vim.o.spellcapcheck  = ''
 vim.o.spell          = true
 
 -- Clipboard hacks for WSL
-local handle = io.popen("uname -r")
-local result = handle:read("*a")
+local handle         = io.popen("uname -r")
+local result         = handle:read("*a")
 if not (handle == nil) then
   handle:close()
 end
@@ -89,3 +89,7 @@ if string.find(result, "microsoft") then
     cache_enabled = 0,
   }
 end
+
+-- Underline support
+vim.cmd([[let &t_Cs = "\e[4:3m"]]) -- Start undercurl
+vim.cmd([[let &t_Ce = "\e[4:0m"]]) -- End undercurl
