@@ -69,8 +69,8 @@ vim.o.spellcapcheck  = ''
 vim.o.spell          = true
 
 -- Clipboard hacks for WSL
-local handle         = io.popen("uname -r")
-local result         = handle:read("*a")
+local handle = io.popen("uname -r")
+local result = handle:read("*a")
 if not (handle == nil) then
   handle:close()
 end

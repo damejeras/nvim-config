@@ -57,24 +57,12 @@ return {
     end
   },
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
+    'Mofiqul/vscode.nvim',
     config = function()
-      local catppuccin = require('catppuccin')
-      catppuccin.setup({
-        flavour = "mocha", -- Choose: latte, frappe, macchiato, mocha
-        transparent_background = false,
-        custom_highlights = function(colors)
-          return {
-            SpellBad = { default = false, undercurl = true, sp = colors.pink },
-          }
-        end
-      })
-      vim.cmd.colorscheme "catppuccin-frappe"
+      -- Load the colorscheme here.
+      vim.cmd([[colorscheme vscode]])
     end,
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
