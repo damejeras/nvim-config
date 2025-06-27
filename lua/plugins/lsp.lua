@@ -88,16 +88,41 @@ return {
               },
             },
             gopls = {
-              env = { GOFLAGS = '-tags=unit', GOOS = 'linux' },
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true
+              gopls = {
+                env = { GOFLAGS = '-tags=unit', GOOS = 'linux' },
+                hints = {
+                  assignVariableTypes = true,
+                  compositeLiteralFields = true,
+                  constantValues = true,
+                  functionTypeParameters = true,
+                  parameterNames = true,
+                  rangeVariableTypes = true,
+                },
+                analyses = {
+                  unusedfunc = true,     -- NEW: Real-time dead function detection
+                  unusedparams = true,   -- Improved unused parameter detection
+                  unusedwrite = true,    -- Detects writes to variables never read
+                  unusedvariable = true, -- Local unused variables
+                  unreachable = true,    -- Unreachable code after returns/panics
+                  shadow = true,         -- Variable shadowing
+                  nilness = true,        -- Nil pointer analysis
+                },
+                -- Enable comprehensive static analysis
+                staticcheck = true, -- Includes U1000 series for unused code
+
+                -- Enhanced completion and formatting
+                completeUnimported = true,
+                gofumpt = true,
+                usePlaceholders = true,
+                -- Performance optimization for large projects
+                directoryFilters = {
+                  "-.git",
+                  "-.vscode",
+                  "-.idea",
+                  "-node_modules",
+                  "-vendor",
+                },
               },
-              usePlaceholders = true,
             },
             zls = {},
             helm_ls = {}, -- configured in ftplugin/yaml.lua
