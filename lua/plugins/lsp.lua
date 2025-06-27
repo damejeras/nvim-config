@@ -104,7 +104,6 @@ return {
                   unusedwrite = true,    -- Detects writes to variables never read
                   unusedvariable = true, -- Local unused variables
                   unreachable = true,    -- Unreachable code after returns/panics
-                  shadow = true,         -- Variable shadowing
                   nilness = true,        -- Nil pointer analysis
                 },
                 -- Enable comprehensive static analysis
