@@ -121,6 +121,7 @@ return {
                   "-node_modules",
                   "-vendor",
                 },
+                templateExtensions = { "pb.go" },
               },
             },
             zls = {},
