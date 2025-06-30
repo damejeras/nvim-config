@@ -1,14 +1,42 @@
 return {
   {
     "refractalize/oil-git-status.nvim",
-
+    opts = {
+      show_ignored = false,
+      symbols = {
+        index = {
+          ["!"] = "!",
+          ["?"] = "?",
+          ["A"] = "A",
+          ["C"] = "C",
+          ["D"] = "D",
+          ["M"] = "M",
+          ["R"] = "R",
+          ["T"] = "T",
+          ["U"] = "U",
+          [" "] = " ",
+        },
+        working_tree = {
+          ["!"] = "!",
+          ["?"] = "?",
+          ["A"] = "A",
+          ["C"] = "C",
+          ["D"] = "D",
+          ["M"] = "M",
+          ["R"] = "R",
+          ["T"] = "T",
+          ["U"] = "U",
+          [" "] = " ",
+        },
+      }
+    },
     dependencies = {
       {
         'stevearc/oil.nvim',
         ---@module 'oil'
         ---@type oil.SetupOpts
         opts = {
-          cleanup_delay_ms = false,
+          cleanup_delay_ms = nil,
           win_options = {
             signcolumn = "yes:2",
           },
