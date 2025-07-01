@@ -36,7 +36,7 @@ return {
         ---@module 'oil'
         ---@type oil.SetupOpts
         opts = {
-          cleanup_delay_ms = nil,
+          cleanup_delay_ms = false, -- does not cleanup, you can ctrl+o to go back
           win_options = {
             signcolumn = "yes:2",
           },
