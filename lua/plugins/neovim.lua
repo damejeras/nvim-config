@@ -36,7 +36,7 @@ return {
         ---@module 'oil'
         ---@type oil.SetupOpts
         opts = {
-          cleanup_delay_ms = false, -- does not cleanup, you can ctrl+o to go back
+          cleanup_delay_ms = false, -- does not cleanup, you can ctrl+o to go back. ignore lint
           win_options = {
             signcolumn = "yes:2",
           },
@@ -150,7 +150,22 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff' },
-        lualine_c = { { 'filename', path = 1 }, 'diagnostics' },
+        lualine_c = {
+          {
+            'filename',
+            path = 1,
+            on_click = function()
+              local filepath = vim.fn.expand('%:.')
+              if filepath and filepath ~= '' then
+                vim.fn.setreg('+', filepath)
+                vim.notify('File path copied to clipboard: ' .. filepath, vim.log.levels.INFO)
+              else
+                vim.notify('No file to copy', vim.log.levels.WARN)
+              end
+            end
+          },
+          'diagnostics'
+        },
         lualine_x = { 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
