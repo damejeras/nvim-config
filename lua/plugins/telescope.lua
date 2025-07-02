@@ -128,9 +128,26 @@ return {
       {
         '<leader>ff',
         function()
-          require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
+          if vim.bo.filetype == 'oil' then
+            local oil = require('oil')
+            local dir = oil.get_current_dir()
+            if dir then
+              require('telescope.builtin').find_files({ hidden = true, no_ignore = true, cwd = dir })
+            else
+              require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
+            end
+          else
+            require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
+          end
         end,
         desc = '[F]ind [F]iles'
+      },
+      {
+        '<leader>fF',
+        function()
+          require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
+        end,
+        desc = '[F]ind All [F]iles'
       },
       {
         '<leader>fh',
