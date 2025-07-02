@@ -149,7 +149,18 @@ return {
       {
         '<leader>fg',
         function()
-          require('telescope.builtin').live_grep()
+          -- Check if we're in an oil buffer
+          if vim.bo.filetype == 'oil' then
+            local oil = require('oil')
+            local dir = oil.get_current_dir()
+            if dir then
+              require('telescope.builtin').live_grep({ cwd = dir })
+            else
+              require('telescope.builtin').live_grep()
+            end
+          else
+            require('telescope.builtin').live_grep()
+          end
         end,
         desc = '[F]ind by [G]rep'
       },
