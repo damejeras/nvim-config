@@ -18,6 +18,7 @@ vim.keymap.set('n', '<leader>\\', '<cmd>Telescope buffers<CR>', { desc = 'Pick b
 -- vim.keymap.set('n', '<leader><enter>', '<cmd>BufferPin<CR>', { desc = 'Pin buffer' })
 vim.keymap.set('n', '<leader><space>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader><backspace>', '<cmd>bprev<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<leader>x', '<cmd>bdelete<CR>', { desc = 'Close buffer' })
 -- vim.keymap.set('n', '<leader><delete>', '<cmd>BufferCloseAllButPinned<CR>', { desc = 'Close unpined buffers' })
 
 -- Helper function to count windows in the same axis
