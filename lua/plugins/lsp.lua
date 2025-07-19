@@ -125,6 +125,7 @@ return {
               },
             },
             zls = {},
+            templ = {},
             helm_ls = {}, -- configured in ftplugin/yaml.lua
             yamlls = {},  -- configured in ftplugin/yaml.lua
           }

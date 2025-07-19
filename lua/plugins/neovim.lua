@@ -1,5 +1,9 @@
 return {
   {
+    'uga-rosa/ccc.nvim',
+    config = true
+  },
+  {
     "refractalize/oil-git-status.nvim",
     opts = {
       show_ignored = false,
