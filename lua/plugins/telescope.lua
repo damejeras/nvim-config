@@ -126,7 +126,7 @@ return {
         desc = '[F]ind Workspace [S]ymbols'
       },
       {
-        '<leader>ff',
+        '<leader>fF',
         function()
           if vim.bo.filetype == 'oil' then
             local oil = require('oil')
@@ -143,7 +143,7 @@ return {
         desc = '[F]ind [F]iles'
       },
       {
-        '<leader>fF',
+        '<leader>ff',
         function()
           require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
         end,
@@ -164,7 +164,7 @@ return {
         desc = '[F]ind [?]Help'
       },
       {
-        '<leader>fg',
+        '<leader>fG',
         function()
           -- Check if we're in an oil buffer
           if vim.bo.filetype == 'oil' then
@@ -182,7 +182,7 @@ return {
         desc = '[F]ind by [G]rep'
       },
       {
-        '<leader>fG',
+        '<leader>fg',
         function()
           require("telescope").extensions.live_grep_args.live_grep_args()
         end,

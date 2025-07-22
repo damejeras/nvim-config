@@ -124,6 +124,7 @@ return {
                 templateExtensions = { "pb.go" },
               },
             },
+            ruby_lsp = {},
             zls = {},
             templ = {},
             helm_ls = {}, -- configured in ftplugin/yaml.lua
