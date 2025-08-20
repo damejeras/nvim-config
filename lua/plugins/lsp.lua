@@ -38,7 +38,6 @@ return {
             nmap('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename')
             nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
             nmap('<leader>cf', '<cmd>Format<CR>', '[C]ode [F]ormat')
-            nmap('<leader>cd', vim.diagnostic.open_float, '[C]ode [D]iagnostic error')
             nmap('<leader>cs', vim.lsp.buf.signature_help, '[C]ode [S]ignature')
 
             nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
