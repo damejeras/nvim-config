@@ -76,3 +76,16 @@ vim.api.nvim_create_autocmd('CursorHold', {
     })
   end,
 })
+
+-- Close floating diagnostics when switching buffers or windows
+vim.api.nvim_create_autocmd({'BufLeave', 'WinLeave', 'CursorMoved'}, {
+  pattern = '*',
+  callback = function()
+    -- Close all floating windows
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_config(win).relative ~= '' then
+        vim.api.nvim_win_close(win, false)
+      end
+    end
+  end,
+})
