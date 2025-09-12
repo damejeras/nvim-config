@@ -3,59 +3,6 @@ return {
     'uga-rosa/ccc.nvim',
     config = true
   },
-  {
-    "refractalize/oil-git-status.nvim",
-    opts = {
-      show_ignored = false,
-      symbols = {
-        index = {
-          ["!"] = "!",
-          ["?"] = "?",
-          ["A"] = "A",
-          ["C"] = "C",
-          ["D"] = "D",
-          ["M"] = "M",
-          ["R"] = "R",
-          ["T"] = "T",
-          ["U"] = "U",
-          [" "] = " ",
-        },
-        working_tree = {
-          ["!"] = "!",
-          ["?"] = "?",
-          ["A"] = "A",
-          ["C"] = "C",
-          ["D"] = "D",
-          ["M"] = "M",
-          ["R"] = "R",
-          ["T"] = "T",
-          ["U"] = "U",
-          [" "] = " ",
-        },
-      }
-    },
-    dependencies = {
-      {
-        'stevearc/oil.nvim',
-        ---@module 'oil'
-        ---@type oil.SetupOpts
-        opts = {
-          cleanup_delay_ms = false, -- does not cleanup, you can ctrl+o to go back. ignore lint
-          win_options = {
-            signcolumn = "yes:2",
-          },
-          view_options = {
-            show_hidden = true,
-          },
-        },
-        dependencies = {
-          'nvim-tree/nvim-web-devicons',
-        },
-      },
-    },
-
-    config = true,
-  },
   -- Useful plugin to show you pending keybinds.
   {
     'folke/which-key.nvim',

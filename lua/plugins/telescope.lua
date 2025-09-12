@@ -128,17 +128,7 @@ return {
       {
         '<leader>fF',
         function()
-          if vim.bo.filetype == 'oil' then
-            local oil = require('oil')
-            local dir = oil.get_current_dir()
-            if dir then
-              require('telescope.builtin').find_files({ hidden = true, no_ignore = true, cwd = dir })
-            else
-              require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
-            end
-          else
-            require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
-          end
+          require('telescope.builtin').find_files({ hidden = true, no_ignore = true })
         end,
         desc = '[F]ind [F]iles'
       },
@@ -166,18 +156,7 @@ return {
       {
         '<leader>fG',
         function()
-          -- Check if we're in an oil buffer
-          if vim.bo.filetype == 'oil' then
-            local oil = require('oil')
-            local dir = oil.get_current_dir()
-            if dir then
-              require('telescope.builtin').live_grep({ cwd = dir })
-            else
-              require('telescope.builtin').live_grep()
-            end
-          else
-            require('telescope.builtin').live_grep()
-          end
+          require('telescope.builtin').live_grep()
         end,
         desc = '[F]ind by [G]rep'
       },
