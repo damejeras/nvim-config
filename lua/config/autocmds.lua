@@ -77,16 +77,13 @@ vim.api.nvim_create_autocmd('CursorHold', {
   end,
 })
 
--- Close floating diagnostics when switching buffers or windows
--- NOTE: might cause problem on some machines, comment out then
-vim.api.nvim_create_autocmd({ 'BufLeave', 'WinLeave' }, {
-  pattern = '*',
-  callback = function()
-    -- Close all floating windows
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      if vim.api.nvim_win_get_config(win).relative ~= '' then
-        vim.api.nvim_win_close(win, false)
-      end
-    end
-  end,
-})
+-- Close diagnostic floating windows only when using jumplist navigation
+vim.keymap.set('n', '<C-o>', function()
+  vim.diagnostic.hide()
+  return '<C-o>'
+end, { expr = true })
+
+vim.keymap.set('n', '<C-i>', function()
+  vim.diagnostic.hide()
+  return '<C-i>'
+end, { expr = true })
