@@ -5,7 +5,7 @@ vim.opt_local.softtabstop = 2
 vim.opt_local.expandtab   = true
 
 -- Configure yamlls to catch correct schemas.
-require('lspconfig').yamlls.setup {
+vim.lsp.config.yamlls.setup {
   settings = {
     yaml = {
       format = {
@@ -33,7 +33,7 @@ require('lspconfig').yamlls.setup {
 }
 
 -- Configure helm_ls
-require('lspconfig').helm_ls.setup {
+vim.lsp.config.helm_ls.setup {
   settings = {
     ['helm-ls'] = {
       yamlls = {
