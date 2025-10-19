@@ -98,55 +98,57 @@ return {
         },
       },
       adapters = {
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            schema = {
-              model = {
-                default = "claude-3-5-haiku-20241022",
-                choices = {
-                  "claude-opus-4-20250514",
-                  "claude-sonnet-4-20250514",
-                  "claude-3-7-sonnet-20250219",
-                  "claude-3-5-haiku-20241022",
-                },
-              }
-            },
-            env = {
-              api_key = "cmd:echo $ANTHROPIC_API_KEY"
-            },
-          })
-        end,
-        openai = function()
-          return require("codecompanion.adapters").extend("openai", {
-            schema = {
-              model = {
-                order = 1,
-                mapping = "parameters",
-                type = "enum",
-                desc =
-                "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
-                default = "gpt-4o-mini",
-                choices = {
-                  "gpt-4o",
-                  "gpt-4o-mini",
-                  "gpt-4-turbo-preview",
-                  "gpt-4",
-                  "gpt-3.5-turbo",
+        http = { -- Add the 'http' sub-table here
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              schema = {
+                model = {
+                  default = "claude-3-5-haiku-20241022",
+                  choices = {
+                    "claude-opus-4-20250514",
+                    "claude-sonnet-4-20250514",
+                    "claude-3-7-sonnet-20250219",
+                    "claude-3-5-haiku-20241022",
+                  },
+                }
+              },
+              env = {
+                api_key = "cmd:echo $ANTHROPIC_API_KEY"
+              },
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              schema = {
+                model = {
+                  order = 1,
+                  mapping = "parameters",
+                  type = "enum",
+                  desc =
+                  "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
+                  default = "gpt-4o-mini",
+                  choices = {
+                    "gpt-4o",
+                    "gpt-4o-mini",
+                    "gpt-4-turbo-preview",
+                    "gpt-4",
+                    "gpt-3.5-turbo",
+                  },
                 },
               },
-            },
-            env = {
-              api_key = "cmd:echo $OPENAI_API_KEY"
-            },
-          })
-        end,
-        gemini = function()
-          return require("codecompanion.adapters").extend("gemini", {
-            env = {
-              api_key = "cmd:echo $GEMINI_API_KEY"
-            },
-          })
-        end,
+              env = {
+                api_key = "cmd:echo $OPENAI_API_KEY"
+              },
+            })
+          end,
+          gemini = function()
+            return require("codecompanion.adapters").extend("gemini", {
+              env = {
+                api_key = "cmd:echo $GEMINI_API_KEY"
+              },
+            })
+          end,
+        }, -- Close the 'http' sub-table
       },
     }
   end,
