@@ -72,7 +72,8 @@ vim.api.nvim_create_autocmd('CursorHold', {
     vim.diagnostic.open_float(nil, {
       focusable = false,
       scope = 'cursor',
-      border = 'rounded',
+      border = 'single',
+
     })
   end,
 })

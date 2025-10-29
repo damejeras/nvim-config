@@ -3,6 +3,66 @@ return {
     'uga-rosa/ccc.nvim',
     config = true
   },
+  {
+    'stevearc/oil.nvim',
+    opts = {
+      -- Disable automatic buffer cleanup to preserve jumplist navigation
+      cleanup_delay_ms = false,
+      view_options = {
+        show_hidden = true,
+      },
+      win_options = {
+        signcolumn = "yes:2",
+        statuscolumn = "",
+      },
+    },
+    dependencies = {
+      { "nvim-mini/mini.icons", opts = {} },
+      {
+        'FerretDetective/oil-git-signs.nvim',
+        ft = "oil",
+        dependencies = { "stevearc/oil.nvim" },
+        opts = {
+          skip_confirm_for_simple_git_operations = true,
+          keymaps = {
+            { "n", "[h", function()
+              require("oil-git-signs").jump_to_status("up",
+                vim.v.count1)
+            end },
+            { "n", "]h", function()
+              require("oil-git-signs").jump_to_status("down",
+                vim.v.count1)
+            end },
+            { { "n", "v" }, "<Leader>hs", function() require("oil-git-signs").stage_selected() end },
+            { { "n", "v" }, "<Leader>hu", function() require("oil-git-signs").unstage_selected() end },
+          },
+        },
+      },
+    },
+    lazy = false,
+    config = function(_, opts)
+      require("oil").setup(opts)
+
+      -- Track last oil directory for toggle functionality
+      local last_oil_dir = nil
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "oil://*",
+        callback = function()
+          last_oil_dir = require("oil").get_current_dir()
+        end,
+      })
+
+      -- Keymaps
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+      vim.keymap.set("n", "<leader>-", function()
+        if last_oil_dir then
+          require("oil").open(last_oil_dir)
+        else
+          require("oil").open()
+        end
+      end, { desc = "Open oil at last directory" })
+    end,
+  },
   -- Useful plugin to show you pending keybinds.
   {
     'folke/which-key.nvim',
