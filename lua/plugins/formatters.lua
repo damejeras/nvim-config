@@ -8,6 +8,7 @@ return {
 				"gofumpt",
 				"stylua",
 				"prettier",
+				"buf",
 			},
 			auto_update = false,
 			run_on_start = true,
@@ -32,6 +33,7 @@ return {
 				html = { "prettier" },
 				css = { "prettier" },
 				terraform = { "terraform_fmt" },
+				proto = { "buf" },
 			},
 			-- Format on save
 			format_on_save = {
