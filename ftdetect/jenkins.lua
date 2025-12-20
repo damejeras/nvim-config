@@ -1,9 +1,9 @@
 vim.filetype.add({
-  extension = {
-    Jenkinsfile = 'groovy',
-  },
+	extension = {
+		Jenkinsfile = "groovy",
+	},
 
-  filename = {
-    ['Jenkinsfile'] = 'groovy'
-  },
+	filename = {
+		["Jenkinsfile"] = "groovy",
+	},
 })
