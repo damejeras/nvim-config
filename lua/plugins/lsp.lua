@@ -76,10 +76,22 @@ return {
 						-- phpactor = {},
 						lua_ls = {
 							Lua = {
-								workspace = { checkThirdParty = false },
-								telemetry = { enable = false },
-								-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-								-- diagnostics = { disable = { 'missing-fields' } },
+								runtime = {
+									version = "LuaJIT",
+								},
+								diagnostics = {
+									globals = { "vim" },
+								},
+								workspace = {
+									checkThirdParty = false,
+									library = {
+										vim.env.VIMRUNTIME,
+										"${3rd}/luv/library",
+									},
+								},
+								telemetry = {
+									enable = false,
+								},
 							},
 						},
 						gopls = {
