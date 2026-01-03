@@ -119,7 +119,7 @@ return {
 								-- Enhanced completion and formatting
 								completeUnimported = true,
 								gofumpt = true,
-								usePlaceholders = true,
+								usePlaceholders = false,
 								-- Performance optimization for large projects
 								directoryFilters = {
 									"-.git",
@@ -174,6 +174,8 @@ return {
 					-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 					local capabilities = vim.lsp.protocol.make_client_capabilities()
 					capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+					-- Disable snippet support since we don't use a snippet engine
+					capabilities.textDocument.completion.completionItem.snippetSupport = false
 
 					-- Ensure the servers above are installed
 					local mason_lspconfig = require("mason-lspconfig")
