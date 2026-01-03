@@ -26,6 +26,7 @@ return {
 
 			telescope.setup({
 				defaults = {
+					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					file_ignore_patterns = {
 						".git/",
 						".cache",

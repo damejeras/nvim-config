@@ -41,10 +41,6 @@ return {
 					completeopt = "menu,menuone,noinsert",
 				},
 				preselect = cmp.PreselectMode.None, -- instruct lsp server to not preselect
-				window = {
-					-- completion = cmp.config.window.bordered({ border = 'single' }),
-					documentation = cmp.config.window.bordered({ border = "single" }),
-				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-u>"] = cmp.mapping.scroll_docs(-4),
 					["<C-d>"] = cmp.mapping.scroll_docs(4),

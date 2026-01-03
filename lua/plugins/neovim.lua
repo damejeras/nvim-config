@@ -1,5 +1,17 @@
 return {
 	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000,
+		config = function()
+			-- Set colorscheme
+			vim.cmd.colorscheme("gruvbox")
+
+			-- Change spelling underline to orange instead of red
+			-- Keep text color normal, only underline in orange
+			vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ff9800" })
+		end,
+	},
+	{
 		"stevearc/oil.nvim",
 		opts = {
 			-- Disable automatic buffer cleanup to preserve jumplist navigation
@@ -113,62 +125,6 @@ return {
 		end,
 	},
 	{
-		"Mofiqul/vscode.nvim",
-		priority = 1000,
-		config = function()
-			local c = require("vscode.colors").get_colors()
-			vim.cmd.colorscheme("vscode")
-
-			vim.api.nvim_set_hl(0, "NavicIconsFile", { default = true, fg = c.vscViolet, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsModule", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsNamespace", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsPackage", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsClass", { default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsMethod", { default = true, fg = c.vscPink, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsProperty", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsField", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsConstructor", { default = true, fg = c.vscUiOrange, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsEnum", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsInterface", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsFunction", { default = true, fg = c.vscYellow, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsVariable", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsConstant", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsString", { default = true, fg = c.vscOrange, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsNumber", { default = true, fg = c.vscLightGreen, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsBoolean", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsArray", { default = true, fg = c.vscPink, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsObject", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsKey", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsNull", { default = true, fg = c.vscBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsStruct", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsEvent", { default = true, fg = c.vscLightBlue, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicIconsOperator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(
-				0,
-				"NavicIconsTypeParameter",
-				{ default = true, fg = c.vscBlueGreen, bg = c.vscLeftMid }
-			)
-			vim.api.nvim_set_hl(0, "NavicText", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-			vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, fg = c.vscFront, bg = c.vscLeftMid })
-
-			-- Set mini-files colors
-			vim.api.nvim_set_hl(0, "MiniFilesNormal", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
-			vim.api.nvim_set_hl(0, "MiniFilesBorder", { default = true, fg = c.vscPopupBack, bg = c.vscBack })
-			vim.api.nvim_set_hl(0, "MiniFilesDirectory", { default = true, fg = c.vscBlue, bg = c.vscBack })
-			vim.api.nvim_set_hl(0, "MiniFilesTitle", { default = true, fg = c.vscPopupFront, bg = c.vscBack })
-			vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { default = true, fg = c.vscPink, bg = c.vscBack })
-			vim.api.nvim_set_hl(0, "MiniFilesCursorLine", { default = true, fg = c.vscYellow, bg = c.vscBack })
-
-			vim.api.nvim_set_hl(0, "BufferVisibleCHANGED", { default = true, link = "BufferVisible" })
-			vim.api.nvim_set_hl(0, "BufferVisibleDELETED", { default = true, link = "BufferVisible" })
-			vim.api.nvim_set_hl(0, "BufferVisibleADDED", { default = true, link = "BufferVisible" })
-
-			-- Change spelling underline colors
-			vim.api.nvim_set_hl(0, "SpellBad", { default = false, undercurl = true, sp = c.vscUiOrange })
-		end,
-	},
-	{
 		-- Set lualine as statusline
 		"nvim-lualine/lualine.nvim",
 
@@ -178,6 +134,7 @@ return {
 				icons_enabled = true,
 				component_separators = "|",
 				section_separators = "",
+				theme = "gruvbox",
 			},
 			sections = {
 				lualine_a = { "mode" },
