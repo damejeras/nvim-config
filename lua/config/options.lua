@@ -53,8 +53,8 @@ vim.o.termguicolors = true
 -- Highlight current line
 vim.o.cursorline = true
 
--- Show 100 symbols line
-vim.o.colorcolumn = "100"
+-- Show 120 symbols line
+vim.o.colorcolumn = "120"
 
 -- Enable line wrap
 vim.o.wrap = true
