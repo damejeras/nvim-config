@@ -81,6 +81,12 @@ return {
 
 			-- Show line numbers in preview
 			vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
+
+			-- Telescope background - link to floating window highlight for theme consistency
+			vim.api.nvim_set_hl(0, "TelescopeNormal", { link = "NormalFloat" })
+			vim.api.nvim_set_hl(0, "TelescopePromptNormal", { link = "NormalFloat" })
+			vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { link = "NormalFloat" })
+			vim.api.nvim_set_hl(0, "TelescopePreviewNormal", { link = "NormalFloat" })
 		end,
 
 		keys = {

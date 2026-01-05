@@ -15,6 +15,15 @@ return {
 					vim.g.no_plugin_maps = true
 				end,
 			},
+			{
+				-- Tree-sitter incremental selection plugin
+				-- Replaces the removed incremental_selection from nvim-treesitter
+				"daliusd/incr.nvim",
+				opts = {
+					incr_key = "m", -- Grow selection
+					decr_key = "M", -- Shrink selection
+				},
+			},
 		},
 		build = ":TSUpdate",
 		config = function(_, _)

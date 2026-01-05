@@ -96,3 +96,7 @@ end
 -- Underline support
 vim.cmd([[let &t_Cs = "\e[4:3m"]]) -- Start undercurl
 vim.cmd([[let &t_Ce = "\e[4:0m"]]) -- End undercurl
+
+-- Change spelling underline to orange instead of red
+-- Keep text color normal, only underline in orange
+vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ff9800" })
