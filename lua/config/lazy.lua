@@ -16,7 +16,6 @@ return function(opts)
 		spec = {
 			{ import = "plugins" },
 		},
-		install = { colorscheme = { "vscode", "habamax" } },
 		performance = {
 			cache = {
 				enabled = true,

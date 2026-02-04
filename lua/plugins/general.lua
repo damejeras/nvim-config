@@ -1,5 +1,15 @@
 return {
 	{
+		"uhs-robert/oasis.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("oasis").setup() -- (see Configuration below for all customization options)
+			vim.cmd.colorscheme("oasis-mirage") -- After setup, apply theme (or any style like "oasis-night")
+			vim.api.nvim_set_hl(0, "SpellBad", { undercurl = true, sp = "#ff9800" })
+		end,
+	},
+	{
 		"stevearc/oil.nvim",
 		opts = {
 			-- Disable automatic buffer cleanup to preserve jumplist navigation
@@ -58,6 +68,7 @@ return {
 		},
 		lazy = false,
 		config = function(_, opts)
+			vim.opt.fillchars = { eob = " " }
 			require("oil").setup(opts)
 
 			-- Track last oil directory for toggle functionality
@@ -122,7 +133,6 @@ return {
 				icons_enabled = true,
 				component_separators = "|",
 				section_separators = "",
-				theme = "ayu",
 			},
 			sections = {
 				lualine_a = { "mode" },
@@ -146,22 +156,6 @@ return {
 				lualine_x = { "filetype" },
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
-			},
-		},
-	},
-
-	{
-		-- Add indentation guides even on blank lines
-		"lukas-reineke/indent-blankline.nvim",
-		-- Enable `lukas-reineke/indent-blankline.nvim`
-		-- See `:help ibl`
-		main = "ibl",
-		opts = {
-			indent = {
-				char = "┊",
-			},
-			scope = {
-				enabled = false,
 			},
 		},
 	},
