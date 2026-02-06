@@ -143,14 +143,14 @@ return {
 				function()
 					require("telescope.builtin").find_files({ hidden = true, no_ignore = true })
 				end,
-				desc = "[F]ind [F]iles",
+				desc = "[F]ind All [F]iles (ignore .gitignore)",
 			},
 			{
 				"<leader>ff",
 				function()
-					require("telescope.builtin").find_files({ hidden = true, no_ignore = true })
+					require("telescope.builtin").find_files({ hidden = true })
 				end,
-				desc = "[F]ind All [F]iles",
+				desc = "[F]ind [F]iles",
 			},
 			{
 				"<leader>fh",
