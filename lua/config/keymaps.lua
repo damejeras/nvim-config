@@ -9,6 +9,9 @@ vim.keymap.set({ "v" }, "<RightMouse>", '"+y', { desc = "Copy to clipboard" })
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>e", function()
+	vim.diagnostic.open_float({ focusable = true, scope = "cursor" })
+end, { desc = "Open diagnostic float (focusable)" })
 
 -- Shift blocks in visual mode
 vim.keymap.set("v", "<", "<gv", { desc = "Shift block left" })

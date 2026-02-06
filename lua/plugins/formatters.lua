@@ -9,6 +9,7 @@ return {
 				"stylua",
 				"prettier",
 				"buf",
+				"ruff",
 			},
 			auto_update = false,
 			run_on_start = true,
@@ -23,6 +24,7 @@ return {
 			formatters_by_ft = {
 				go = { "goimports", "gofumpt" },
 				lua = { "stylua" },
+				python = { "ruff_format", "ruff_organize_imports" },
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				javascriptreact = { "prettier" },

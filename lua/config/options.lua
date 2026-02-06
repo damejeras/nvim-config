@@ -65,12 +65,6 @@ vim.o.splitright = true
 -- Control how files are opened from quickfix list
 vim.o.switchbuf = "useopen,uselast"
 
--- Configure spellchecking
-vim.o.spelllang = "en_us"
-vim.o.spelloptions = "camel,noplainbuffer"
-vim.o.spellcapcheck = ""
-vim.o.spell = true
-
 -- Clipboard hacks for WSL
 local handle = io.popen("uname -r")
 local result = handle:read("*a")

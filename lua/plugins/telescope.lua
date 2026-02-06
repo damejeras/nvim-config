@@ -37,7 +37,7 @@ return {
 
 			telescope.setup({
 				defaults = {
-					-- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					file_ignore_patterns = {
 						".git/",
 						".cache",
@@ -101,14 +101,6 @@ return {
 		end,
 
 		keys = {
-			{
-				"zs",
-				function()
-					local theme = require("telescope.themes").get_dropdown({})
-					require("telescope.builtin").spell_suggest(theme)
-				end,
-				desc = "Suggest spelling",
-			},
 			{
 				"<leader>ft",
 				function()
