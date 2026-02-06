@@ -1,5 +1,16 @@
 local width = 0.9
 
+local function document_symbol_layout()
+	local full_width = vim.api.nvim_win_get_width(0)
+	local available = math.floor(full_width * width) - 8
+	local type_width = math.max(10, math.floor(available * 0.2))
+
+	return {
+		symbol_width = available - type_width,
+		type_width = type_width,
+	}
+end
+
 return {
 	-- Fuzzy Finder (files, lsp, etc)
 	{
@@ -26,7 +37,7 @@ return {
 
 			telescope.setup({
 				defaults = {
-					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+					-- borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					file_ignore_patterns = {
 						".git/",
 						".cache",
@@ -108,21 +119,7 @@ return {
 			{
 				"<leader>fs",
 				function()
-					-- calculate column width
-					local full_width = vim.api.nvim_win_get_width(0)
-					local available = math.floor(full_width * width) - 8
-					local min_type_width = 10
-					local type_width = math.floor(available * 0.2)
-					local symbol_width = available - type_width
-					if type_width < min_type_width then
-						type_width = min_type_width
-						symbol_width = available - type_width
-					end
-
-					require("telescope.builtin").lsp_document_symbols({
-						symbol_width = symbol_width,
-						type_width = type_width,
-					})
+					require("telescope.builtin").lsp_document_symbols(document_symbol_layout())
 				end,
 				desc = "[F]ind Document [S]ymbols",
 			},
