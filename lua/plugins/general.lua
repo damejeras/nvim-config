@@ -10,6 +10,21 @@ return {
 		end,
 	},
 	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			options = {
+				custom_filter = function(buf_number)
+					if vim.bo[buf_number].filetype == "oil" then
+						return false
+					end
+					return true
+				end,
+			},
+		},
+	},
+	{
 		"stevearc/oil.nvim",
 		opts = {
 			-- Disable automatic buffer cleanup to preserve jumplist navigation
@@ -153,7 +168,9 @@ return {
 					},
 					"diagnostics",
 				},
-				lualine_x = { "filetype" },
+				lualine_x = {
+					"filetype",
+				},
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},

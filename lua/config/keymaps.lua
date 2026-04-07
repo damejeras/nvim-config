@@ -7,8 +7,8 @@ vim.keymap.set({ "v" }, "<leader>y", '"+y', { desc = "Copy to clipboard" })
 vim.keymap.set({ "v" }, "<RightMouse>", '"+y', { desc = "Copy to clipboard" })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", function()
 	vim.diagnostic.open_float({ focusable = true, scope = "cursor" })
 end, { desc = "Open diagnostic float (focusable)" })
@@ -18,12 +18,19 @@ vim.keymap.set("v", "<", "<gv", { desc = "Shift block left" })
 vim.keymap.set("v", ">", ">gv", { desc = "Shift block right" })
 
 -- Buffer keymaps
-vim.keymap.set("n", "<leader>\\", "<cmd>Telescope buffers<CR>", { desc = "Pick buffer" })
--- vim.keymap.set('n', '<leader><enter>', '<cmd>BufferPin<CR>', { desc = 'Pin buffer' })
-vim.keymap.set("n", "<leader><space>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader><backspace>", "<cmd>bprev<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader><enter>", "<cmd>BufferLineTogglePin<CR>", { desc = "Pin buffer" })
+vim.keymap.set("n", "<leader><space>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader><backspace>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>x", "<cmd>bdelete<CR>", { desc = "Close buffer" })
--- vim.keymap.set('n', '<leader><delete>', '<cmd>BufferCloseAllButPinned<CR>', { desc = 'Close unpined buffers' })
+vim.keymap.set("n", "<leader>\\", "<cmd>BufferLinePick<CR>", { desc = "Pick buffer" })
+vim.keymap.set("n", "<leader><delete>", function()
+	local groups = require("bufferline.groups")
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.bo[buf].buflisted and not groups._is_pinned({ id = buf }) then
+			vim.api.nvim_buf_delete(buf, {})
+		end
+	end
+end, { desc = "Close unpinned buffers" })
 
 -- Helper function to count windows in the same axis
 local function count_windows_in_axis(vertical)

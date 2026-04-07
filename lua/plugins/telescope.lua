@@ -195,13 +195,6 @@ return {
 				desc = "[F]ind [R]esume",
 			},
 			{
-				"<leader>fb",
-				function()
-					require("telescope.builtin").buffers()
-				end,
-				desc = "[F]ind [B]uffers",
-			},
-			{
 				"<leader>fm",
 				function()
 					require("telescope.builtin").marks()
