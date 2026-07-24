@@ -39,40 +39,48 @@ return {
 		build = ":TSUpdate",
 		config = function(_, _)
 			-- [[ Configure Treesitter ]]
-			require("nvim-treesitter").setup({
-				-- Add languages to be installed here that you want installed for treesitter
-				ensure_installed = {
-					"c",
-					"cpp",
-					"go",
-					"templ",
-					"lua",
-					"python",
-					"rust",
-					"tsx",
-					"javascript",
-					"typescript",
-					"vimdoc",
-					"vim",
-					"bash",
-					"yaml",
-					"markdown",
-					"zig",
-					"ruby",
-					"git",
-					"toml",
-				},
+			-- NOTE: This is the `main` branch of nvim-treesitter, which has a
+			-- different API from `master`: setup() takes no ensure_installed and
+			-- there are no highlight/indent modules. Parsers are installed with
+			-- install() (skips anything already installed), and highlighting and
+			-- indentation are enabled per-buffer via vim.treesitter.
+			require("nvim-treesitter").install({
+				"c",
+				"cpp",
+				"go",
+				"templ",
+				"lua",
+				"python",
+				"rust",
+				"tsx",
+				"javascript",
+				"typescript",
+				"vimdoc",
+				"vim",
+				"bash",
+				"yaml",
+				"markdown",
+				"markdown_inline",
+				"zig",
+				"ruby",
+				"gitcommit",
+				"git_rebase",
+				"git_config",
+				"gitattributes",
+				"gitignore",
+				"toml",
+			})
 
-				-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-				auto_install = true,
-				-- Install languages synchronously (only applied to `ensure_installed`)
-				sync_install = false,
-				-- List of parsers to ignore installing
-				ignore_install = {},
-				-- You can specify additional Treesitter modules here: -- For example: -- playground = {--enable = true,-- },
-				modules = {},
-				highlight = { enable = true },
-				indent = { enable = true },
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("treesitter-start", {}),
+				callback = function(ev)
+					local lang = vim.treesitter.language.get_lang(ev.match)
+					if lang and vim.treesitter.language.add(lang) then
+						-- Also highlights injected languages, e.g. code fences in markdown
+						vim.treesitter.start(ev.buf, lang)
+						vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
 			})
 
 			-- Configure treesitter-textobjects separately.
