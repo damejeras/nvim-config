@@ -37,6 +37,22 @@ return {
 
 			telescope.setup({
 				defaults = {
+					-- neo-tree pushes any file opened in its window out into another one, and
+					-- that move happens after telescope has placed the cursor, so the jump to
+					-- the matched line is lost. Never hand telescope a window that cannot hold
+					-- a file: neo-tree, the Claude terminal, quickfix and help all have a
+					-- buftype, a normal file window has none.
+					get_selection_window = function()
+						if vim.bo.buftype == "" then
+							return 0
+						end
+						for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+							if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "" then
+								return win
+							end
+						end
+						return 0
+					end,
 					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					file_ignore_patterns = {
 						".git/",

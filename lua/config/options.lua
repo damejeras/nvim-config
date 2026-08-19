@@ -19,6 +19,9 @@ vim.o.hlsearch = true
 -- Make line numbers default
 vim.wo.number = true
 
+-- Hide the tildes after the last line
+vim.o.fillchars = "eob: "
+
 -- Enable mouse mode
 vim.o.mouse = "a"
 

@@ -9,7 +9,7 @@ vim.keymap.set({ "v" }, "<RightMouse>", '"+y', { desc = "Copy to clipboard" })
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "<leader>e", function()
+vim.keymap.set("n", "<leader>k", function()
 	vim.diagnostic.open_float({ focusable = true, scope = "cursor" })
 end, { desc = "Open diagnostic float (focusable)" })
 

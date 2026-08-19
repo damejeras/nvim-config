@@ -16,7 +16,7 @@ return {
 		opts = {
 			options = {
 				custom_filter = function(buf_number)
-					if vim.bo[buf_number].filetype == "oil" then
+					if vim.bo[buf_number].filetype == "neo-tree" then
 						return false
 					end
 					return true
@@ -25,86 +25,25 @@ return {
 		},
 	},
 	{
-		"stevearc/oil.nvim",
-		opts = {
-			-- Disable automatic buffer cleanup to preserve jumplist navigation
-			cleanup_delay_ms = false,
-			view_options = {
-				show_hidden = true,
-			},
-			win_options = {
-				signcolumn = "yes:2",
-				statuscolumn = "",
-			},
-		},
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
 		dependencies = {
-			{
-				"nvim-tree/nvim-web-devicons",
-				opts = {},
-			},
-			{
-				"FerretDetective/oil-git-signs.nvim",
-				ft = "oil",
-				dependencies = { "stevearc/oil.nvim" },
-				opts = {
-					skip_confirm_for_simple_git_operations = true,
-					keymaps = {
-						{
-							"n",
-							"[h",
-							function()
-								require("oil-git-signs").jump_to_status("up", vim.v.count1)
-							end,
-						},
-						{
-							"n",
-							"]h",
-							function()
-								require("oil-git-signs").jump_to_status("down", vim.v.count1)
-							end,
-						},
-						{
-							{ "n", "v" },
-							"<Leader>hs",
-							function()
-								require("oil-git-signs").stage_selected()
-							end,
-						},
-						{
-							{ "n", "v" },
-							"<Leader>hu",
-							function()
-								require("oil-git-signs").unstage_selected()
-							end,
-						},
-					},
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+		lazy = false,
+		opts = {
+			filesystem = {
+				filtered_items = {
+					visible = true,
 				},
 			},
 		},
-		lazy = false,
-		config = function(_, opts)
-			vim.opt.fillchars = { eob = " " }
-			require("oil").setup(opts)
-
-			-- Track last oil directory for toggle functionality
-			local last_oil_dir = nil
-			vim.api.nvim_create_autocmd("BufEnter", {
-				pattern = "oil://*",
-				callback = function()
-					last_oil_dir = require("oil").get_current_dir()
-				end,
-			})
-
-			-- Keymaps
-			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-			vim.keymap.set("n", "<leader>-", function()
-				if last_oil_dir then
-					require("oil").open(last_oil_dir)
-				else
-					require("oil").open()
-				end
-			end, { desc = "Open oil at last directory" })
-		end,
+		keys = {
+			{ "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle file tree" },
+			{ "<leader>E", "<cmd>Neotree reveal<cr>", desc = "File tree at current file" },
+		},
 	},
 	-- Useful plugin to show you pending keybinds.
 	{
@@ -113,6 +52,8 @@ return {
 		config = function(_, _)
 			-- document existing key chains
 			require("which-key").add({
+				{ "<leader>a", group = "[A]I" },
+				{ "<leader>a_", hidden = true },
 				{ "<leader>c", group = "[C]ode" },
 				{ "<leader>c_", hidden = true },
 				{ "<leader>d", group = "[D]ebug" },

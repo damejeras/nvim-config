@@ -1,3 +1,80 @@
+-- A jump leaves the cursor where the target line already sat, so a definition near the
+-- bottom of the window keeps its body off screen. Frame the definition instead: put the
+-- node the cursor landed in in the middle of the window, and fall back to zz when the
+-- node is taller than the window.
+local function frame_node()
+	local win = 0
+	local row = vim.api.nvim_win_get_cursor(win)[1] - 1
+
+	-- The jump can land before anything drew the new buffer, and get_node reads parsed
+	-- trees only, so parse first or there is no node to frame.
+	local ok, parser = pcall(vim.treesitter.get_parser, 0)
+	if not ok or not parser then
+		vim.cmd("normal! zz")
+		return
+	end
+	parser:parse()
+
+	local node = vim.treesitter.get_node()
+	if not node then
+		vim.cmd("normal! zz")
+		return
+	end
+
+	-- The cursor lands on the name, so climb to the largest node that still starts on
+	-- that line: from a function name that is the whole declaration. Stop below the
+	-- root, which starts on the first line and spans the file.
+	while node:parent() and node:parent():parent() and node:parent():start() == row do
+		node = node:parent()
+	end
+
+	local first, _, last, _ = node:range()
+	local height = vim.api.nvim_win_get_height(win)
+	-- 'wrap' is on, so the line count of a node is not the space it takes on screen.
+	local rows = vim.api.nvim_win_text_height(win, { start_row = first, end_row = last }).all
+	if rows > height then
+		vim.cmd("normal! zz")
+		return
+	end
+
+	-- Half of the space that is left goes above the node. Walk up line by line until
+	-- that space is full: with wrap on, one line can take more than one row.
+	local above = math.floor((height - rows) / 2)
+	local top = first
+	while top > 0 do
+		local line = vim.api.nvim_win_text_height(win, { start_row = top - 1, end_row = top - 1 }).all
+		if line > above then
+			break
+		end
+		above = above - line
+		top = top - 1
+	end
+
+	vim.fn.winrestview({ topline = top + 1 })
+end
+
+-- Both jump paths land after the call returns: one result jumps from the LSP reply,
+-- several go through the telescope picker. So arm the framing and let the landing run
+-- it. A jump that finds nothing never lands and leaves the arm set, which spends itself
+-- on the next cursor move.
+local function framed(jump)
+	return function()
+		jump()
+		local group = vim.api.nvim_create_augroup("LspJumpFrame", { clear = true })
+		vim.api.nvim_create_autocmd("CursorMoved", {
+			group = group,
+			callback = function(ev)
+				-- The picker moves its own cursor first. Only a file window is a landing.
+				if vim.bo[ev.buf].buftype ~= "" then
+					return
+				end
+				vim.api.nvim_del_augroup_by_id(group)
+				vim.schedule(frame_node)
+			end,
+		})
+	end
+end
+
 return {
 	{
 		-- LSP Configuration & Plugins
@@ -36,16 +113,16 @@ return {
 						nmap("<leader>cf", "<cmd>Format<CR>", "[C]ode [F]ormat")
 						nmap("<leader>cs", vim.lsp.buf.signature_help, "[C]ode [S]ignature")
 
-						nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-						nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-						nmap("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-						nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+						nmap("gd", framed(require("telescope.builtin").lsp_definitions), "[G]oto [D]efinition")
+						nmap("gr", framed(require("telescope.builtin").lsp_references), "[G]oto [R]eferences")
+						nmap("gi", framed(require("telescope.builtin").lsp_implementations), "[G]oto [I]mplementation")
+						nmap("gI", framed(require("telescope.builtin").lsp_implementations), "[G]oto [I]mplementation")
 
 						-- See `:help K` for why this keymap
 						nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 
 						-- Lesser used LSP functionality
-						nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+						nmap("gD", framed(vim.lsp.buf.declaration), "[G]oto [D]eclaration")
 						nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
 						nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
 						nmap("<leader>wl", function()
