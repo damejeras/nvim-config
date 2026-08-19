@@ -38,6 +38,9 @@ return {
 				filtered_items = {
 					visible = true,
 				},
+				follow_current_file = {
+					enabled = true,
+				},
 			},
 		},
 		keys = {
@@ -110,6 +113,15 @@ return {
 					"diagnostics",
 				},
 				lualine_x = {
+					{
+						function()
+							return require("schema-companion").get_current_schemas() or ""
+						end,
+						cond = function()
+							return package.loaded["schema-companion"] ~= nil
+								and require("schema-companion").get_current_schemas() ~= nil
+						end,
+					},
 					"filetype",
 				},
 				lualine_y = { "progress" },

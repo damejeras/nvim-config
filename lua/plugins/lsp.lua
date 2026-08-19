@@ -83,6 +83,7 @@ return {
 			{ "j-hui/fidget.nvim", opts = {} },
 			{ "mason-org/mason.nvim", version = "1.11.0" },
 			{ "towolf/vim-helm", ft = "helm" },
+			{ "cenk1cenk2/schema-companion.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
 			{
 				"mason-org/mason-lspconfig.nvim",
 				version = "1.32.0",
@@ -228,24 +229,62 @@ return {
 								format = {
 									enabled = true,
 								},
-								schemas = {
-									kubernetes = "*!(values).yaml",
-									["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-									["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-									["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-									["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-									["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-									["http://json.schemastore.org/ansible-playbook"] = "*play*.{yml,yaml}",
-									["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-									["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
-									["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-									["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-									["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
-									["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
-									["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "argocd-application.yaml",
-								},
 							},
 						},
+					}
+
+					-- A file name cannot say "this is a Kubernetes manifest", so this reads the
+					-- buffer and answers that one question. It hands back the keyword, not a
+					-- schema URL: yaml-language-server resolves "kubernetes" per document, so
+					-- each document in a multi-document file gets the schema for its own kind,
+					-- and a group it does not ship goes to the CRD catalog. The plugin's own
+					-- kubernetes matcher resolves the URL itself, which pins every kind found
+					-- anywhere in the file onto every document in it.
+					local kubernetes_source = {
+						name = "Kubernetes",
+						match = function(_, ctx, bufnr)
+							-- A file the catalog names on its own keeps that schema. kind.yaml carries
+							-- apiVersion and kind but describes a kind cluster, not a resource in one,
+							-- and the keyword sends yamlls to a CRD url that does not exist. Skip what
+							-- our own override put there, or a second match would stand down.
+							for _, schema in ipairs(ctx.adapter:match_schema_from_lsp(bufnr) or {}) do
+								local uri = schema.uri or ""
+								if not uri:match("kubernetes%-json%-schema") and not uri:match("CRDs%-catalog") then
+									return {}
+								end
+							end
+
+							local api, kind = false, false
+							for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+								api = api or line:match("^apiVersion:%s*%S") ~= nil
+								kind = kind or line:match("^kind:%s*%S") ~= nil
+							end
+
+							if api and kind then
+								return { { name = "Kubernetes", uri = "kubernetes", source = "Kubernetes" } }
+							end
+
+							return {}
+						end,
+					}
+
+					-- schema-companion's README says to configure the servers from after/lsp/,
+					-- which does not work here: the vim.lsp.config assignment below outranks
+					-- every lsp/ file on the runtimepath, so it would drop the adapter's
+					-- on_attach and capabilities.
+					local schema_adapters = {
+						yamlls = function()
+							local sc = require("schema-companion")
+							return sc.adapters.yamlls.setup({
+								sources = { kubernetes_source, sc.sources.lsp.setup() },
+							})
+						end,
+						helm_ls = function()
+							local sc = require("schema-companion")
+							return sc.adapters.helmls.setup({
+								sources = { kubernetes_source },
+							})
+						end,
 					}
 
 					-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -263,12 +302,19 @@ return {
 
 					mason_lspconfig.setup_handlers({
 						function(server_name)
-							vim.lsp.config[server_name] = {
+							local config = {
 								capabilities = capabilities,
 								on_attach = on_attach,
 								settings = servers[server_name],
 								filetypes = (servers[server_name] or {}).filetypes,
 							}
+
+							if schema_adapters[server_name] then
+								config =
+									require("schema-companion").setup_client(schema_adapters[server_name](), config)
+							end
+
+							vim.lsp.config[server_name] = config
 							vim.lsp.enable(server_name)
 						end,
 					})
