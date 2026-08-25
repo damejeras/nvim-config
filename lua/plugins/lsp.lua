@@ -81,17 +81,15 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{ "j-hui/fidget.nvim", opts = {} },
-			{ "mason-org/mason.nvim", version = "1.11.0" },
+			-- opts (not a manual setup() call) so mason also configures itself when
+			-- another plugin, such as nvim-treesitter, loads it as a dependency.
+			{ "mason-org/mason.nvim", version = "1.11.0", opts = {} },
 			{ "towolf/vim-helm", ft = "helm" },
 			{ "cenk1cenk2/schema-companion.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
 			{
 				"mason-org/mason-lspconfig.nvim",
 				version = "1.32.0",
 				config = function(_, _)
-					-- mason-lspconfig requires that these setup functions are called in this order
-					-- before setting up the servers.
-					require("mason").setup()
-
 					-- [[ Configure LSP ]]
 					--  This function gets run when an LSP connects to a particular buffer.
 					local on_attach = function(_, bufnr)

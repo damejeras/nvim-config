@@ -15,6 +15,9 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		dependencies = {
+			-- The `main` branch builds every parser with the `tree-sitter` CLI,
+			-- so mason has to put that binary on PATH before install() runs.
+			{ "mason-org/mason.nvim" },
 			{
 				"nvim-treesitter/nvim-treesitter-textobjects",
 				branch = "main",
@@ -44,7 +47,7 @@ return {
 			-- there are no highlight/indent modules. Parsers are installed with
 			-- install() (skips anything already installed), and highlighting and
 			-- indentation are enabled per-buffer via vim.treesitter.
-			require("nvim-treesitter").install({
+			local parsers = {
 				"c",
 				"cpp",
 				"go",
@@ -69,7 +72,23 @@ return {
 				"gitattributes",
 				"gitignore",
 				"toml",
-			})
+			}
+
+			-- A fresh machine has no `tree-sitter` CLI. Let mason fetch it, then
+			-- install the parsers once the binary is in place.
+			if vim.fn.executable("tree-sitter") == 1 then
+				require("nvim-treesitter").install(parsers)
+			else
+				local registry = require("mason-registry")
+				registry.refresh(function()
+					registry.get_package("tree-sitter-cli"):install():once(
+						"closed",
+						vim.schedule_wrap(function()
+							require("nvim-treesitter").install(parsers)
+						end)
+					)
+				end)
+			end
 
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("treesitter-start", {}),
