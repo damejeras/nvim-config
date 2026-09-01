@@ -7,6 +7,22 @@ autocmd("VimEnter", {
 	end,
 })
 
+-- Open telescope when nvim starts on a directory, instead of a file tree.
+autocmd("VimEnter", {
+	callback = function()
+		if vim.fn.argc() ~= 1 or vim.fn.isdirectory(vim.fn.argv(0)) == 0 then
+			return
+		end
+		vim.cmd.cd(vim.fn.argv(0))
+		-- Replace the directory buffer with an empty one, so quitting telescope
+		-- leaves a normal buffer and not a directory listing.
+		local dir_buf = vim.api.nvim_get_current_buf()
+		vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, false))
+		vim.api.nvim_buf_delete(dir_buf, { force = true })
+		require("telescope.builtin").find_files({ hidden = true })
+	end,
+})
+
 -- Detect JSON when files don't have .json extension. Could backfire, but had no problems yet.
 autocmd("BufEnter", {
 	pattern = "*",

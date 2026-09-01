@@ -35,6 +35,9 @@ return {
 		lazy = false,
 		opts = {
 			filesystem = {
+				-- Let `nvim <dir>` reach the VimEnter hook in lua/config/autocmds.lua,
+				-- which opens telescope. Neo-tree opens with <leader>e.
+				hijack_netrw_behavior = "disabled",
 				filtered_items = {
 					visible = true,
 				},
