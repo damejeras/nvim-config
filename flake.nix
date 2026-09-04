@@ -45,6 +45,8 @@
               gcc
               gnumake
               tree-sitter
+              # telescope live_grep and grep_string shell out to rg.
+              ripgrep
             ];
           };
 
