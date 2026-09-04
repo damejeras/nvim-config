@@ -1,6 +1,11 @@
 return {
 	{
 		"coder/claudecode.nvim",
+		-- Eager, because the plugin is the server, not the client: it opens the WebSocket
+		-- and writes ~/.claude/ide/<port>.lock, and a Claude session started before this
+		-- Neovim can only find it with /ide if it is already listening. Lazy loading would
+		-- start it at the first <leader>a mapping, which is after the moment it is needed.
+		lazy = false,
 		opts = {
 			-- `claude` on this box is a zsh function, which Neovim cannot call. Spawn the
 			-- script the function wraps: it is the one record of how a session starts here.
@@ -13,22 +18,6 @@ return {
 			diff_opts = {
 				layout = "vertical",
 			},
-		},
-		cmd = {
-			"ClaudeCode",
-			"ClaudeCodeFocus",
-			"ClaudeCodeSelectModel",
-			"ClaudeCodeAdd",
-			"ClaudeCodeSend",
-			"ClaudeCodeTreeAdd",
-			"ClaudeCodeStatus",
-			"ClaudeCodeStart",
-			"ClaudeCodeStop",
-			"ClaudeCodeOpen",
-			"ClaudeCodeClose",
-			"ClaudeCodeDiffAccept",
-			"ClaudeCodeDiffDeny",
-			"ClaudeCodeCloseAllDiffs",
 		},
 		keys = {
 			{ "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
