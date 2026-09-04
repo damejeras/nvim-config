@@ -291,11 +291,22 @@ return {
 					-- Disable snippet support since we don't use a snippet engine
 					capabilities.textDocument.completion.completionItem.snippetSupport = false
 
-					-- Ensure the servers above are installed
+					-- Ensure the servers above are installed. On NixOS they are on PATH already
+					-- and mason's downloads do not run, so ask mason only for what is missing;
+					-- the config stays portable to a machine that provides none of them. The
+					-- names differ from the binaries for some of them.
+					local server_bin = {
+						lua_ls = "lua-language-server",
+						terraformls = "terraform-ls",
+						yamlls = "yaml-language-server",
+					}
+
 					local mason_lspconfig = require("mason-lspconfig")
 
 					mason_lspconfig.setup({
-						ensure_installed = vim.tbl_keys(servers),
+						ensure_installed = vim.tbl_filter(function(server)
+							return vim.fn.executable(server_bin[server] or server) == 0
+						end, vim.tbl_keys(servers)),
 					})
 
 					mason_lspconfig.setup_handlers({

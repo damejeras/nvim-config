@@ -3,14 +3,19 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
-			ensure_installed = {
+			-- These are on PATH already on NixOS, where mason's downloads do not run. Ask
+			-- mason only for what is actually missing, so the config stays portable to a
+			-- machine that provides none of them.
+			ensure_installed = vim.tbl_filter(function(tool)
+				return vim.fn.executable(tool) == 0
+			end, {
 				"goimports",
 				"gofumpt",
 				"stylua",
 				"prettier",
 				"buf",
 				"ruff",
-			},
+			}),
 			auto_update = false,
 			run_on_start = true,
 		},

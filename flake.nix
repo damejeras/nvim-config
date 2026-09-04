@@ -29,8 +29,10 @@
               terraform-ls
               yaml-language-server
               zls
-              # treesitter compiles its parsers.
+              # treesitter compiles its parsers, and telescope-fzf-native compiles a .so —
+              # its lazy.nvim spec disables the plugin outright when make is missing.
               gcc
+              gnumake
               tree-sitter
             ];
           };
