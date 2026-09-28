@@ -88,6 +88,10 @@ if string.find(result, "microsoft") then
 		},
 		cache_enabled = 0,
 	}
+-- Over ssh there is no display, so no clipboard tool. Nvim detects OSC 52 by itself only
+-- outside tmux; tmux does not answer its query, so the provider is set here.
+elseif vim.env.SSH_CONNECTION then
+	vim.g.clipboard = "osc52"
 end
 
 -- Underline support
