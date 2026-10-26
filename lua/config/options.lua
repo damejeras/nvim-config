@@ -6,8 +6,6 @@ vim.g.maplocalleader = " "
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---
 -- A TAB character looks like 4 spaces
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
@@ -24,11 +22,6 @@ vim.o.fillchars = "eob: "
 
 -- Enable mouse mode
 vim.o.mouse = "a"
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
--- vim.o.clipboard      = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -69,11 +62,7 @@ vim.o.splitright = true
 vim.o.switchbuf = "useopen,uselast"
 
 -- Clipboard hacks for WSL
-local handle = io.popen("uname -r")
-local result = handle:read("*a")
-if not (handle == nil) then
-	handle:close()
-end
+local result = vim.uv.os_uname().release
 
 if string.find(result, "microsoft") then
 	vim.g.clipboard = {
@@ -93,7 +82,3 @@ if string.find(result, "microsoft") then
 elseif vim.env.SSH_CONNECTION then
 	vim.g.clipboard = "osc52"
 end
-
--- Underline support
-vim.cmd([[let &t_Cs = "\e[4:3m"]]) -- Start undercurl
-vim.cmd([[let &t_Ce = "\e[4:0m"]]) -- End undercurl

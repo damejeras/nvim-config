@@ -56,23 +56,12 @@ return {
 			-- document existing key chains
 			require("which-key").add({
 				{ "<leader>a", group = "[A]I" },
-				{ "<leader>a_", hidden = true },
 				{ "<leader>c", group = "[C]ode" },
-				{ "<leader>c_", hidden = true },
 				{ "<leader>d", group = "[D]ebug" },
-				{ "<leader>d_", hidden = true },
-				{ "<leader>g", group = "[G]o" },
-				{ "<leader>g_", hidden = true },
 				{ "<leader>h", group = "[H]unk" },
-				{ "<leader>h_", hidden = true },
 				{ "<leader>f", group = "[F]ind" },
-				{ "<leader>f_", hidden = true },
 				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>t_", hidden = true },
 				{ "<leader>w", group = "[W]orkspace" },
-				{ "<leader>w_", hidden = true },
-				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>s_", hidden = true },
 			})
 			-- register which-key VISUAL mode
 			-- required for visual <leader>hs (hunk stage) to work
@@ -135,12 +124,7 @@ return {
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true,
-		-- use opts = {} for passing setup options
-		-- this is equivalent to setup({}) function
 	},
-
-	-- "gc" to comment visual regions/lines
-	{ "numToStr/Comment.nvim", opts = {} },
 
 	-- Adds git related signs to the gutter, as well as utilities for managing changes
 	{
@@ -152,12 +136,6 @@ return {
 			},
 		},
 		opts = {
-			worktrees = {
-				{
-					toplevel = vim.env.HOME,
-					gitdir = vim.env.HOME .. "/.dotfiles/",
-				},
-			},
 			-- See `:help gitsigns.txt`
 			current_line_blame_opts = {
 				virt_text = true,

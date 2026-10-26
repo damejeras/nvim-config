@@ -55,16 +55,16 @@ return {
 					end,
 					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
 					file_ignore_patterns = {
-						".git/",
-						".cache",
-						"%.o",
-						"%.a",
-						"%.out",
-						"%.class",
-						"%.pdf",
-						"%.mkv",
-						"%.mp4",
-						"%.zip",
+						"%.git/",
+						"%.cache/",
+						"%.o$",
+						"%.a$",
+						"%.out$",
+						"%.class$",
+						"%.pdf$",
+						"%.mkv$",
+						"%.mp4$",
+						"%.zip$",
 						"vendor/",
 					},
 					vimgrep_arguments = {
@@ -91,9 +91,7 @@ return {
 				extensions = {
 					live_grep_args = {
 						auto_quoting = true, -- enable/disable auto-quoting
-						-- define mappings, e.g.
 						mappings = {
-							-- extend mappings
 							i = {
 								["<C-k>"] = lga_actions.quote_prompt(),
 								["<C-g>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),

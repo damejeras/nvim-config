@@ -83,22 +83,16 @@ return {
 			{ "j-hui/fidget.nvim", opts = {} },
 			-- opts (not a manual setup() call) so mason also configures itself when
 			-- another plugin, such as nvim-treesitter, loads it as a dependency.
-			{ "mason-org/mason.nvim", version = "1.11.0", opts = {} },
+			{ "mason-org/mason.nvim", version = "*", opts = {} },
 			{ "towolf/vim-helm", ft = "helm" },
 			{ "cenk1cenk2/schema-companion.nvim", dependencies = { "nvim-lua/plenary.nvim" }, opts = {} },
 			{
 				"mason-org/mason-lspconfig.nvim",
-				version = "1.32.0",
+				version = "*",
 				config = function(_, _)
 					-- [[ Configure LSP ]]
 					--  This function gets run when an LSP connects to a particular buffer.
 					local on_attach = function(_, bufnr)
-						-- NOTE: Remember that lua is a real programming language, and as such it is possible
-						-- to define small helper and utility functions so you don't have to repeat yourself
-						-- many times.
-						--
-						-- In this case, we create a function that lets us more easily define mappings specific
-						-- for LSP related items. It sets the mode, buffer and description for us each time.
 						local nmap = function(keys, func, desc)
 							if desc then
 								desc = "LSP: " .. desc
@@ -109,16 +103,14 @@ return {
 
 						nmap("<leader>cr", vim.lsp.buf.rename, "[C]ode [R]ename")
 						nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
-						nmap("<leader>cf", "<cmd>Format<CR>", "[C]ode [F]ormat")
+						nmap("<leader>cf", function()
+							require("conform").format({ timeout_ms = 500, lsp_format = "fallback" })
+						end, "[C]ode [F]ormat")
 						nmap("<leader>cs", vim.lsp.buf.signature_help, "[C]ode [S]ignature")
 
 						nmap("gd", framed(require("telescope.builtin").lsp_definitions), "[G]oto [D]efinition")
-						nmap("gr", framed(require("telescope.builtin").lsp_references), "[G]oto [R]eferences")
-						nmap("gi", framed(require("telescope.builtin").lsp_implementations), "[G]oto [I]mplementation")
-						nmap("gI", framed(require("telescope.builtin").lsp_implementations), "[G]oto [I]mplementation")
-
-						-- See `:help K` for why this keymap
-						nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+						nmap("grr", framed(require("telescope.builtin").lsp_references), "[G]oto [R]eferences")
+						nmap("gri", framed(require("telescope.builtin").lsp_implementations), "[G]oto [I]mplementation")
 
 						-- Lesser used LSP functionality
 						nmap("gD", framed(vim.lsp.buf.declaration), "[G]oto [D]eclaration")
@@ -127,29 +119,10 @@ return {
 						nmap("<leader>wl", function()
 							print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 						end, "[W]orkspace [L]ist Folders")
-
-						-- Create a command `:Format` local to the LSP buffer
-						vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-							vim.lsp.buf.format()
-						end, { desc = "Format current buffer with LSP" })
 					end
 
-					-- Enable the following language servers
-					--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-					--
-					--  Add any additional override configuration in the following tables. They will be passed to
-					--  the `settings` field of the server config. You must look up that documentation yourself.
-					--
-					--  If you want to override the default filetypes that your language server will attach to you can
-					--  define the property 'filetypes' to the map in question.
 					local servers = {
-						-- clangd = {},
 						pyright = {},
-						-- rust_analyzer = {},
-						-- tsserver = {},
-						-- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
-						-- phpactor = {},
 						lua_ls = {
 							Lua = {
 								runtime = {
@@ -194,7 +167,6 @@ return {
 
 								-- Enhanced completion and formatting
 								completeUnimported = true,
-								gofumpt = true,
 								usePlaceholders = false,
 								-- Performance optimization for large projects
 								directoryFilters = {
@@ -304,29 +276,38 @@ return {
 					local mason_lspconfig = require("mason-lspconfig")
 
 					mason_lspconfig.setup({
+						automatic_enable = false,
 						ensure_installed = vim.tbl_filter(function(server)
 							return vim.fn.executable(server_bin[server] or server) == 0
 						end, vim.tbl_keys(servers)),
 					})
 
-					mason_lspconfig.setup_handlers({
-						function(server_name)
-							local config = {
-								capabilities = capabilities,
-								on_attach = on_attach,
-								settings = servers[server_name],
-								filetypes = (servers[server_name] or {}).filetypes,
-							}
+					for server_name in pairs(servers) do
+						local config = {
+							capabilities = capabilities,
+							on_attach = on_attach,
+							settings = servers[server_name],
+							filetypes = (servers[server_name] or {}).filetypes,
+						}
 
-							if schema_adapters[server_name] then
-								config =
-									require("schema-companion").setup_client(schema_adapters[server_name](), config)
+						if schema_adapters[server_name] then
+							config = require("schema-companion").setup_client(schema_adapters[server_name](), config)
+						end
+
+						vim.lsp.config[server_name] = config
+						vim.lsp.enable(server_name)
+					end
+
+					-- Retry open buffers when installation makes a server executable.
+					require("mason-registry"):on(
+						"package:install:success",
+						vim.schedule_wrap(function(pkg)
+							local name = mason_lspconfig.get_mappings().package_to_lspconfig[pkg.name]
+							if servers[name] then
+								vim.lsp.enable(name)
 							end
-
-							vim.lsp.config[server_name] = config
-							vim.lsp.enable(server_name)
-						end,
-					})
+						end)
+					)
 				end,
 			},
 		},
